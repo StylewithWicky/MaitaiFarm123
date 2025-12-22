@@ -1,0 +1,28 @@
+from fastapi import FastAPI
+from backend.app.database.connection import engine,Base
+from backend.app.models import farmers, product,user
+from backend.app.routes import farmers,product,auth
+from fastapi.middleware.cors import CORSMiddleware
+
+
+
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(title="Maitai Farm API", version="1.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[""],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+app.include_router(farmers.router)
+app.include_router(product.router)
+app.include_router(auth.router)
+                   
+@app.get("/")
+def home():
+    return {"message": "Welcome to Maitai Dorper Farm API 🌾"}
