@@ -1,10 +1,10 @@
 from sqlalchemy import Table,Column,Integer,String,Float,ForeignKey
 from sqlalchemy.orm import relationship
-from backend.app.database.connection import Base
+from ..database.connection import Base
 
 class User(Base):
     
-    __tablename__='User'
+    __tablename__='Users'
 
     id=Column(Integer,primary_key=True,index=True)
     username=Column(String(100),nullable=False,unique=True)
