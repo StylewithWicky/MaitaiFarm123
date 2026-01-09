@@ -19,7 +19,7 @@ def get_db():
         db.close()
 
 @router.post('/register')
-def register_user(username:str,email:str,password:str,role:str,db:Session=Depends(get_db)):
+def register_user(username:str,email:str,password:str,db:Session=Depends(get_db)):
     existing_user=db.query(User).filter(User.email==email).first()
     if existing_user:
         raise HTTPException(status_code=400,detail="Email already registered")
@@ -29,7 +29,7 @@ def register_user(username:str,email:str,password:str,role:str,db:Session=Depend
     new_user=User(username=username,
                   email=email,
                   hashed_password=hashed_pw, 
-                  role=role
+                  
                   )
     
     db.add(new_user)
