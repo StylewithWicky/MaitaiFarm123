@@ -1,6 +1,7 @@
 from sqlalchemy import Table,Column,Integer,String,Float,ForeignKey
 from sqlalchemy.orm import relationship
-from ..database.connection import Base, engine
+from ..database.connection import Base
+from .product import Product
 
 
 class Farmer(Base):
@@ -9,5 +10,5 @@ class Farmer(Base):
     name =Column(String(100),nullable=True)
     location =Column(String(100),nullable=True)
 
-    products=relationship ('Product',back_populates="farmer",cascade="all,delete-orphan")
+    products=relationship('Product', back_populates="farmer",cascade="all,delete-orphan")
 

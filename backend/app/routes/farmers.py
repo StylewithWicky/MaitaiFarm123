@@ -1,42 +1,26 @@
-from fastapi import APIRouter,Depends,HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from backend.app.database.connection import SessionLocal
-from backend.app.models.farmers import Farmer
+from app.database.deps import get_db
+from app.models.farmers import Farmer
+from app.schema.farmers import FarmerCreate, FarmerResponse
 
-router=APIRouter(prefix='/farmers',tags=['Farmer'])
+router = APIRouter(prefix="/farmers", tags=["Farmers"])
 
-def get_db():
-    db=SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-@router.get('/')
-def get_farmer(db:Session=Depends(get_db)):
-    farmer=db.query(Farmer).first()
-    if not farmer:
-        raise HTTPException(status_code=404,detail='Farmer not found')
-    return farmer
-
-@router.put('/')
-def update_farmer(
-    name:str,
-    location:str,
-    contact:str,
-    description:str ='',
-    db:Session =Depends(get_db)
-):
-    farmer=db.query(Farmer).first()
-    if not farmer:
-        raise HTTPException(status_code=404 ,detail="Farmer not found")
-    
-    farmer.name=name
-    farmer.Location=location
-    farmer.contact=contact
-    farmer.description=description
-
+@router.post("/", response_model=FarmerResponse)
+def create_farmer(data: FarmerCreate, db: Session = Depends(get_db)):
+    farmer = Farmer(**data.dict())
+    db.add(farmer)
     db.commit()
     db.refresh(farmer)
+    return farmer
 
-    return {'message':"farmer info updated", "data":farmer}
+@router.get("/", response_model=list[FarmerResponse])
+def get_farmers(db: Session = Depends(get_db)):
+    return db.query(Farmer).all()
+
+@router.get("/{farmer_id}", response_model=FarmerResponse)
+def get_farmer(farmer_id: int, db: Session = Depends(get_db)):
+    farmer = db.query(Farmer).get(farmer_id)
+    if not farmer:
+        raise HTTPException(status_code=404, detail="Farmer not found")
+    return farmer

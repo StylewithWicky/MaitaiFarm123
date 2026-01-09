@@ -1,5 +1,14 @@
 from pydantic import BaseModel
+from typing import List
+from app.schema.product import ProductResponse
 
-class PaymentRequest(BaseModel):
-    phone:str
-    amount:str
+class FarmerCreate(BaseModel):
+    name: str
+    location: str
+
+class FarmerResponse(FarmerCreate):
+    id: int
+    products: List[ProductResponse] = []
+
+    class Config:
+        from_attributes = True

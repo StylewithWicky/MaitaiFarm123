@@ -1,9 +1,9 @@
 from fastapi import APIRouter,Depends,HTTPException,Response
 from sqlalchemy.orm import Session
-from backend.app.database.connection import SessionLocal
-from backend.app.models.user import User
-from backend.app.utils.security import hash_password,check_and_update_hash
-from backend.app.config import masettings
+from app.database.connection import SessionLocal
+from app.models.user import User
+from app.utils.security import hash_password,check_and_update_hash
+from app.config import masettings
 from jose import jwt
 
 

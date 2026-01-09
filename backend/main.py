@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from backend.app.database.connection import engine,Base
-from backend.app.models import farmers, product,user
-from backend.app.routes import farmers,product,auth
+from app.database.connection import engine,Base
+from app.models import farmers, product,user
+from app.routes import farmers,product,auth
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -25,4 +25,4 @@ app.include_router(auth.router)
                    
 @app.get("/")
 def home():
-    return {"message": "Welcome to Maitai Dorper Farm API 🌾"}
+    return {"message": "Gwan to Maitai Dorper Farm API 🌾"}
