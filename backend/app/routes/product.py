@@ -7,6 +7,13 @@ from app.schema.product import ProductCreate, ProductResponse
 
 router = APIRouter(prefix="/products", tags=["Products"])
 
+def product_filters(
+    min_price: float | None = Query(None, ge=0),
+    max_price: float | None = Query(None, ge=0),
+    category: str | None = None,
+):
+    return {"min_price": min_price, "max_price": max_price, "category": category}
+
 @router.post("/farmer/{farmer_id}", response_model=ProductResponse)
 def create_product(
     farmer_id: int,
@@ -23,35 +30,13 @@ def create_product(
     db.refresh(product)
     return product
 
-@router.get("/", response_model=list[ProductResponse])
-def get_products(db: Session = Depends(get_db)):
-    return db.query(Product).all()
-
-def product_filters(
-    min_price: float | None = Query(None, ge=0),
-    max_price: float | None = Query(None, ge=0),
-    category: str | None = None,
-):
-    return {"min_price": min_price, "max_price": max_price, "category": category}
-
-def get_product(db, product_id: int):
-    product = db.query(Product).filter(Product.id == product_id).first()
-    if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
-    return product
-
-def buy_product(db, product_id: int, quantity: int):
-    product = get_product(db, product_id)
-    if quantity > product.stock:
-        raise HTTPException(status_code=400, detail="Not enough stock")
-
-
-
-@router.get("/products")
+@router.get("/", response_model=dict)
 def list_products(
     filters: dict = Depends(product_filters),
-    limit: int = 10,
-    offset: int = 0,
+    limit: int = Query(10, ge=1),
+    offset: int = Query(0, ge=0),
+    sort_by: str = Query("price"),
+    order: str = Query("asc"),
     db: Session = Depends(get_db)
 ):
     query = db.query(Product)
@@ -64,18 +49,13 @@ def list_products(
         query = query.filter(Product.price <= filters["max_price"])
 
     products = query.offset(offset).limit(limit).all()
-    return products
 
-@router.get("/products/sort")
-def sorted_products(
-    sort_by: str = Query("price"),
-    order: str = Query("asc"),
-    db: Session = Depends(get_db)
-):
-    valid_fields = {"price": Product.price, "date_added": Product.created_at}
-    if sort_by not in valid_fields:
-        raise HTTPException(status_code=400, detail="Invalid sort field")
+    if sort_by in ["price", "date_added"]:
+        column = getattr(Product, sort_by)
+        products.sort(key=lambda x: getattr(x, sort_by), reverse=(order == "desc"))
 
-    column = valid_fields[sort_by]
-    query = db.query(Product).order_by(column.desc() if order == "desc" else column.asc())
-    return query.all()
+    return {"products": products, "total": query.count(), "limit": limit, "offset": offset}
+
+
+
+
