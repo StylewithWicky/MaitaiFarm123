@@ -14,3 +14,4 @@ class Settings(BaseSettings):
         env_file = ".env"
 
 masettings = Settings()
+print(f"DEBUG: Secret Key loaded: {masettings.SECRET_KEY[:5]}***")
