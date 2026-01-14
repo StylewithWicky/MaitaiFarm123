@@ -26,7 +26,7 @@ const AdminNavBar = () => {
       <ul className={styles.navList}>
         <li className={styles["logo-item"]}>
           <Link to="/">
-            <img src="/logo.png" alt="Maitai Farm" width={140} height={36} />
+            Maitai Farm
           </Link>
         </li>
 

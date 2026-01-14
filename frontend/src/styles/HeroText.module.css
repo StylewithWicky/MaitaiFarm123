@@ -1,29 +1,53 @@
 .heroSection {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 2rem;
-	text-align: center;
-	margin-top: 40px;
-}
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* 1. Remove margin so it touches the top of the browser */
+  margin: top -10px;; 
+  
+  /* 2. Add padding-top equal to or greater than your navbar height 
+     This ensures your text starts below the glass line */
+  padding: 120px 2rem 4rem 2rem; 
+  
+  /* 3. Make it full screen for that premium vibe */
+  min-height: 100vh; 
+  text-align: center;
 
+  /* Background image */
+  background-image:
+    linear-gradient(
+      rgba(24, 61, 36, 0.45), /* Slightly lighter to let colors pop */
+      rgba(24, 61, 36, 0.45)
+    ),
+    url("@/images/image.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
 .heroContainer {
-	max-width: 1200px;
+  max-width: 1100px;
+  z-index: 1;
 }
-
 
 .heroTitle {
-	font-size: 2.5rem;
-	font-weight: 800;
-	line-height: 1.2;
-	color: #6b21a8;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.8rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #ffffff;
+  letter-spacing: 0.5px;
 }
 
-
 .heroSubtitle {
-	margin-top: 1rem;
-	font-size: 1.125rem;
-	color: #4b5563;
-	line-height: 1.6;
+  margin-top: 1.4rem;
+  font-family: "Inter", sans-serif;
+  font-size: 1.2rem;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #e8f5e9;
+  line-height: 1.7;
 }

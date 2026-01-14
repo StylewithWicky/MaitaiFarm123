@@ -30,64 +30,55 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormErrors({});
-    setSuccessMessage(null);
     setGlobalError(null);
 
+    console.log("🚀 Attempting to connect to FastAPI...");
+
     try {
-      // Get CSRF token if your backend needs it
-      const csrfRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/get_csrf_token`, {
-        method: 'GET',
-        credentials: 'include',
-      });
-      const { csrf_token } = await csrfRes.json();
-
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ ...formData, csrf_token }),
+      // Direct connection to your FastAPI port
+      const response = await fetch("http://127.0.0.1:8000/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
       });
 
+      console.log("📡 Response Status:", response.status);
       const data = await response.json();
+      console.log("📦 Data received:", data);
 
       if (!response.ok) {
-        if (data.errors) {
-          let targetStep = step;
-          const formattedErrors = Object.keys(data.errors).reduce((acc, key) => {
-            acc[key] = data.errors[key].join(', ');
-            const fieldStep = FIELD_STEP_MAP[key];
-            if (fieldStep && fieldStep < targetStep) targetStep = fieldStep;
-            return acc;
-          }, {});
-          setFormErrors(formattedErrors);
-          setStep(targetStep);
-          setTimeout(() => setFormErrors({}), 5000);
-        } else {
-          setGlobalError(data.error || 'Unexpected error occurred.');
-          setTimeout(() => setGlobalError(null), 5000);
-        }
+        // Handle login failures (Wrong password, etc.)
+        const errorMessage = Array.isArray(data.detail) 
+        ? "Invalid data format sent to server" 
+        : data.detail || "Login failed";
+        setGlobalError(errorMessage);
+        setStep(1); // Reset to email step if it fails
       } else {
-        setSuccessMessage(data.success);
-        setTimeout(() => {
-          setSuccessMessage(null);
+        setSuccessMessage(`Welcome back, ${data.username}!`);
 
-          // Redirect based on role
+        // THE MAGIC REDIRECT
+        setTimeout(() => {
           if (data.role === 'admin') {
+            console.log("👑 Admin detected. Redirecting...");
             navigate('/admin/dashboard', { replace: true });
           } else {
+            console.log("👤 User detected. Redirecting...");
             navigate('/dashboard', { replace: true });
           }
-        }, 2000);
+        }, 1500);
       }
     } catch (error) {
-      alert('Network error. Please try again.');
+      console.error("❌ Bridge broken:", error);
+      setGlobalError('Cannot connect to the server. Is FastAPI running?');
     }
   };
-
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={step === 2 ? handleSubmit : handleNext}>
-        <h2 className={styles.title}>Welcome to Nethub Electronics</h2>
+        <h2 className={styles.title}>Welcome to Maitai Farm</h2>
 
         {(globalError || successMessage) && (
           <div className={globalError ? styles['error'] : styles['success-message']}>

@@ -1,43 +1,45 @@
-/* WhyChooseUs.module.css - REPLACE ENTIRE FILE WITH THIS */
+/* =========================
+   MAITAI FARM: WHY CHOOSE US
+========================= */
 
-/* Page / section wrapper */
 .wrap {
-  padding: 3rem 1rem;
-  background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+  padding: 5rem 1rem;
+  /* Soft gradient from white to your very light green */
+  background: linear-gradient(180deg, #ffffff 0%, #E8F5E9 100%);
   box-sizing: border-box;
 }
 
-/* Keep content centered and limit site width to 1600px */
 .container {
-  max-width: 1600px;
+  max-width: 1400px; /* Tightened slightly for a more premium editorial feel */
   margin: 0 auto;
   padding: 0 1rem;
   box-sizing: border-box;
 }
 
-/* Heading + lead */
+/* Heading - Using your Playfair Display / Dark Green theme */
 .heading {
-  font-size: 1.75rem;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 4vw, 2.75rem);
   font-weight: 700;
-  color: #6b21a8;
+  color: #2F3E2F; /* Maitai Dark Text */
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .lead {
-  color: #6b7280;
+  font-family: "Inter", sans-serif;
+  color: #4b5563;
   text-align: center;
-  max-width: 900px;
-  margin: 0.25rem auto 1.75rem auto;
-  font-size: 1rem;
-  line-height: 1.5;
+  max-width: 700px; /* Narrower lead text is easier to read */
+  margin: 0 auto 3.5rem auto;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
-/* GRID: small = 1 column, medium = 2 columns, large = 4 columns */
-/* This grid fills the available width; cards grow to 1fr each */
+/* GRID */
 .grid {
   display: grid;
-  gap: 1.25rem;
+  gap: 2rem;
   grid-template-columns: 1fr;
   width: 100%;
   list-style: none;
@@ -46,88 +48,84 @@
   box-sizing: border-box;
 }
 
-/* Medium screens: 2 columns (tablet-ish) */
 @media (min-width: 768px) and (max-width: 1023px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
   }
 }
 
-/* Large screens: 4 columns (desktop) */
-/* Also cap layout width to 1600px via .container above */
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.75rem;
   }
 }
 
-/* CARD - stretch to full width of the grid cell */
+/* CARD - Clean Pinterest/Farm Style */
 .card {
   width: 100%;
   display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  padding: 1rem;
-  border-radius: 12px;
+  flex-direction: column; /* Changed to vertical for a cleaner look */
+  gap: 1.25rem;
+  align-items: center; /* Center items for an symmetrical look */
+  padding: 2.25rem 1.5rem;
+  border-radius: 20px;
   background: #ffffff;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  /* Subtle green-tinted shadow */
+  box-shadow: 0 10px 30px rgba(47, 62, 47, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
+  border: 1px solid rgba(76, 175, 80, 0.08);
+  text-align: center;
 }
 
-/* Hover lift */
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.09);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(46, 125, 50, 0.12);
+  border-color: #4CAF50; /* Primary Green border on hover */
 }
 
-/* Icon container */
+/* Icon container - Using Maitai Green shades */
 .iconWrap {
-  min-width: 48px;
-  min-height: 48px;
-  border-radius: 9999px;
-  background: linear-gradient(135deg, rgba(107,33,168,0.08), rgba(37,99,235,0.06));
+  min-width: 64px;
+  min-height: 64px;
+  border-radius: 16px; /* Squircle look for Pinterest vibe */
+  background: #E8F5E9; /* Light Green */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #6b21a8;
+  color: #2E7D32; /* Dark Green Icon */
   flex-shrink: 0;
+  transition: transform 0.3s ease;
 }
 
-/* Content area grows and fills remaining space */
+.card:hover .iconWrap {
+  background: #4CAF50; /* Primary Green on hover */
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
 .content {
   flex: 1 1 auto;
-  min-width: 0; /* important so text truncates/wraps correctly in grid */
 }
-
 
 .cardTitle {
   margin: 0;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  color: #6b21a8;
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2F3E2F;
 }
 
 .cardDesc {
-  margin: 0.35rem 0 0;
+  margin: 0.75rem 0 0;
   color: #6b7280;
   font-size: 0.95rem;
-  line-height: 1.45;
+  line-height: 1.6;
 }
 
-/* Small visual tweaks for very narrow devices */
+/* Mobile Adjustments */
 @media (max-width: 420px) {
-  .card {
-    padding: 0.75rem;
-    gap: 0.75rem;
-  }
-  .iconWrap {
-    min-width: 40px;
-    min-height: 40px;
-  }
-  .heading {
-    font-size: 1.5rem;
-  }
+  .wrap { padding: 3rem 1rem; }
+  .card { padding: 1.5rem; }
+  .heading { font-size: 1.75rem; }
 }

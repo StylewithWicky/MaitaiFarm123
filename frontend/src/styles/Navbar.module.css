@@ -1,173 +1,245 @@
+/* =========================
+   NAVBAR WRAPPER (GLASS)
+========================= */
+.navbar {
+ position: fixed;
+ top: 0;
+ width: 100%;
+ z-index: 3000;
+ border-bottom: none;
+ background: transparent;
+ background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%);
+ 
+}
+
+/* =========================
+   NAV LIST
+========================= */
 .navList {
-  list-style: none;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.25rem;
-  width: 100%;
-  padding: 0;
-  margin: 0;
+ list-style: none;
+ display: flex;
+ flex-wrap: nowrap;
+ align-items: center;
+ justify-content: flex-end;
+ gap: 2rem;
+ width: 100%;
+ padding: 0 2rem;
+ margin: 0 auto;
 }
 
+/* =========================
+   LOGO
+========================= */
+.logo-item {
+ margin-right: auto;
+ display: flex;
+ align-items: center;
+text-decoration: none;
+  color: #ffffff; /* Crisp white for that high-end look */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+
+.logoLink {
+display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+ text-decoration: none;
+ font-weight: 700;
+ color: #14532d;
+}
+
+
+/* =========================
+   NAV LINKS
+========================= */
 .nav-link {
-  text-decoration: none;
-  height: 50px;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  color: #102533;
-  background-color: transparent;
-  white-space: nowrap;
+ text-decoration: none;
+ height: 50px;
+ padding: 0 20px;
+ display: flex;
+ align-items: center;
+ color: #1f3d2b;
+ background-color: transparent;
+ white-space: nowrap;
+ font-weight: 500;
 }
 
-.nav-link:hover { font-weight: bold; }
-
-.menu-button { display: none; }
-.menu-button svg path { fill: chocolate; }
-
-.sidebar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  width: 100%;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  color: #111111;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 1rem;
-  z-index: 2000;
+.nav-link:hover {
+ color: #166534;
+ font-weight: 600;
 }
-.hide-sidebar { display: none; }
 
-.sidebar li { width: 100%; margin: 0.25rem 0; }
+.active-link {
+ color: #166534;
+ font-weight: 700;
+}
 
-.active-link { color: #00764d; font-weight: bold; }
+/* =========================
+   DROPDOWN
+========================= */
+.travel-dropdown {
+ position: relative;
+}
 
-.hide-on-mobile { display: inline-flex; }
-
-/* Dropdown */
 .travel-link {
-  color: black;
-  text-decoration: none;
-  padding: 10px 15px;
-  display: block;
-  cursor: pointer;
-  transition: color 0.3s ease;
+ color: #1f3d2b;
+ text-decoration: none;
+ padding: 10px 15px;
+ display: block;
+ cursor: pointer;
+ transition: color 0.3s ease;
 }
-.travel-link:hover { color: #00764d; }
 
-.travel-dropdown { position: relative; }
+.travel-link:hover {
+ color: #166534;
+}
 
 .dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #fff;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  border-radius: 6px;
-  min-width: 220px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-  z-index: 100;
+     display: none;
+ position: absolute;
+ top: 100%;
+ left: 0;
+ background: rgba(255, 255, 255, 0.75);
+ backdrop-filter: blur(14px);
+ -webkit-backdrop-filter: blur(14px);
+ list-style: none;
+ padding: 0.5rem 0;
+ margin: 0;
+ border-radius: 12px;
+ min-width: 220px;
+ box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+ z-index: 100;
 }
-.travel-dropdown:hover .dropdown-menu { display: block; }
+
+.travel-dropdown:hover .dropdown-menu {
+ display: block;
+}
+
+.dropdown-menu li {
+ width: 100%;
+}
 
 .dropdown-menu li .travel-link {
-  color: #111;
-  padding: 10px 15px;
-}
-.dropdown-menu li .travel-link:hover { background-color: #f0f0f0; }
-
-/* Logo on right */
-.logo-item {
-  margin-right: auto;
-  display: flex;
-  align-items: center;
-}
-.logoLink { 
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5rem;
-	text-decoration: none;
+ color: #1f3d2b;
+ padding: 10px 16px;
 }
 
-
-@media screen and (max-width: 900px) {
-  .menu-button { 
-  	display: inline-block;
- }
-  .hide-on-mobile { display: none; }
-
-  /* hide logo on very small screens; change to 'inline-flex' if you want it visible */
-  .logo-item { display: inline-flex; }
-
-  .navList { justify-content: flex-end; }
+.dropdown-menu li .travel-link:hover {
+ background-color: rgba(22, 101, 52, 0.08);
 }
 
-
+/* =========================
+   ICON BUTTONS
+========================= */
 .navIconButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0 20px;
-    height: 100%;
-    display: flex;
-    align-items: center;
+ background: none;
+ border: none;
+ cursor: pointer;
+ padding: 0 20px;
+ height: 100%;
+ display: flex;
+ align-items: center;
 }
 
+/* =========================
+   MENU BUTTON
+========================= */
 .menu-button {
-    display: none;
+ display: none;
 }
 
 .menu-button svg {
-    width: 26px;
-    height: 26px;
-    stroke: #102533;
+ width: 26px;
+ height: 26px;
+ stroke: #1f3d2b;
 }
 
 .menu-button:hover svg {
-    stroke: #6b21a8;
+ stroke: #166534;
 }
 
+/* =========================
+   SIDEBAR (MOBILE)
+========================= */
+.sidebar {
+ position: absolute;
+ top: 0;
+ right: 0;
+ width: 100%;
+ background: rgba(255, 255, 255, 0.85);
+ backdrop-filter: blur(16px);
+ -webkit-backdrop-filter: blur(16px);
+
+ border-radius: 12px;
+ box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+ color: #1f3d2b;
+
+ display: flex;
+ flex-direction: column;
+ justify-content: flex-start;
+ align-items: flex-start;
+ padding: 1rem;
+ z-index: 2000;
+}
+
+.hide-sidebar {
+ display: none;
+}
+
+.sidebar li {
+ width: 100%;
+ margin: 0.25rem 0;
+}
+
+/* =========================
+   CLOSE BUTTON
+========================= */
 .close-button {
-    width: 100%;
-    display: flex;
-    padding: 15px 20px;
+ width: 100%;
+ display: flex;
+ padding: 15px 20px;
 }
 
 .close-button svg {
-    width: 28px;
-    height: 28px;
-    stroke: #102533;
+ width: 28px;
+ height: 28px;
+ stroke: #1f3d2b;
 }
 
 .close-button:hover svg {
-    stroke: #6b21a8;
+ stroke: #166534;
 }
 
-
-@media screen and (max-width: 900px) {
-    .menu-button {
-        display: flex;
-        align-items: center;
-    }
-
-    .hide-on-mobile {
-        display: none;
-    }
+/* =========================
+   RESPONSIVE
+========================= */
+.hide-on-mobile {
+display: inline-flex;
 }
 
-@media screen and (max-width: 600px) {
-    .navIconButton,
-    .close-button {
-        padding: 18px;
-    }
+@media screen and (max-width: 900px) { .menu-button {
+ display: flex;
+ align-items: center;
+ }
+
+ .hide-on-mobile {
+ display: none;
+ }
+
+ .logo-item {
+ display: inline-flex; }
+
+ .navList {
+ justify-content: flex-end;
+}
 }
 
+@media screen and (max-width: 600px) { .navIconButton,
+.close-button {
+ padding: 18px;
+ }
+}

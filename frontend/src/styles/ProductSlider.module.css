@@ -1,47 +1,64 @@
+/* =========================
+   MAITAI FARM SLIDER THEME
+========================= */
 .wrapper {
-  padding: 2rem;
-  background-color: #fff;
+  padding: 4rem 2rem;
+  background-color: #E8F5E9; /* Light green background for the section */
 }
 
 .heading {
-  font-size: 1.75rem;
+  font-family: "Playfair Display", serif; /* Editorial Font */
+  font-size: 2.2rem;
   font-weight: 700;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   text-align: center;
-  color: #6b21a8;
+  color: #2F3E2F; /* Your dark text color */
 }
 
 .sliderWrap {
   position: relative;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .slide {
-  padding: 0.5rem;
+  padding: 1rem;
   display: flex;
   justify-content: center;
 }
 
+/* =========================
+   PRODUCT CARDS
+========================= */
 .card {
   background-color: #ffffff;
-  border-radius: 1rem;
+  border-radius: 1.5rem; /* Smoother, Pinterest-style corners */
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  width: 400px;
-  height: 300px;
-  min-height: 200px;
+  box-shadow: 0 10px 20px rgba(47, 62, 47, 0.08); /* Soft organic shadow */
+  width: 100%;
+  max-width: 400px;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.6rem;
+  padding: 1.2rem;
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(76, 175, 80, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #4CAF50; /* Primary Green on hover */
 }
 
 .media {
   width: 100%;
   position: relative;
-  aspect-ratio: 4 / 3;
-  margin-bottom: 1rem;
-  height: 90%;
+  aspect-ratio: 1 / 1; /* Squares look great for farm products */
+  margin-bottom: 1.2rem;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 
 .mediaInner {
@@ -51,65 +68,62 @@
 }
 
 .productName {
+  font-family: "Inter", sans-serif;
   font-weight: 600;
-  font-size: 1.125rem;
-  color: #111827;
+  font-size: 1.25rem;
+  color: #2F3E2F; /* Maitai Dark Text */
   text-align: center;
   line-height: 1.3;
-  min-height: 2.6rem;
+  margin-bottom: 0.5rem;
 }
 
-/* Arrows */
+/* =========================
+   NAVIGATION ARROWS
+========================= */
 .arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(255,255,255,0.9);
-  border: none;
-  padding: 0.5rem;
-  border-radius: 9999px;
+  background-color: #ffffff;
+  color: #2E7D32; /* Dark Green */
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  padding: 0.75rem;
+  border-radius: 50%;
   cursor: pointer;
   z-index: 2;
-  transition: background-color 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
 }
 
 .arrow:hover {
-  background-color: rgba(37, 99, 235, 0.9);
-  color: #fff;
+  background-color: #2E7D32; /* Dark Green */
+  color: #ffffff;
+  box-shadow: 0 6px 15px rgba(46, 125, 50, 0.3);
 }
 
 .prev {
-  left: -1rem;
+  left: -1.5rem;
 }
 
 .next {
-  right: -1rem;
+  right: -1.5rem;
 }
 
-
-@media (max-width: 768px) {
-	.arrow {
-		display: none !important;
-	}
-}
-
-
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
 @media (max-width: 1024px) {
-  .productName {
-    font-size: 1rem; /* 16px */
-    min-height: 2.4rem;
-  }
+  .heading { font-size: 1.8rem; }
+  .productName { font-size: 1.1rem; }
+  .prev { left: 0; }
+  .next { right: 0; }
 }
 
-/* Small devices (phones) */
 @media (max-width: 640px) {
-  .productName {
-    font-size: 0.875rem; /* 14px */
-    min-height: 2.2rem;
-    }
-
-  .card {
-    width: 90%;
-    height: 280px;
-  }
+  .wrapper { padding: 2rem 1rem; }
+  .card { width: 100%; }
+  .arrow { display: none !important; } /* Hide arrows on small mobile */
 }
