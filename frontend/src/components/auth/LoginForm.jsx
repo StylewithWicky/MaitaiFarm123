@@ -35,7 +35,7 @@ export default function LoginForm() {
     console.log("🚀 Attempting to connect to FastAPI...");
 
     try {
-      // Direct connection to your FastAPI port
+     
       const response = await fetch("http://127.0.0.1:8000/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,7 +50,7 @@ export default function LoginForm() {
       console.log("📦 Data received:", data);
 
       if (!response.ok) {
-        // Handle login failures (Wrong password, etc.)
+       
         const errorMessage = Array.isArray(data.detail) 
         ? "Invalid data format sent to server" 
         : data.detail || "Login failed";
@@ -58,8 +58,10 @@ export default function LoginForm() {
         setStep(1); // Reset to email step if it fails
       } else {
         setSuccessMessage(`Welcome back, ${data.username}!`);
-
-        // THE MAGIC REDIRECT
+        
+        localStorage.setItem("adminToken", "true"); 
+        localStorage.setItem("userRole", data.role)
+        
         setTimeout(() => {
           if (data.role === 'admin') {
             console.log("👑 Admin detected. Redirecting...");

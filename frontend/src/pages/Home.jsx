@@ -9,12 +9,12 @@ import AdminFooter from "@/components/layout/AdminFooter";
 const Home = () => {
         return (
                 <main>
-                        <AdminNavBar />
+                        
                         <HeroText />
                         <ProductSlider />
                         <WhyChooseUs />
                         <AboutSection />
-                        <AdminFooter />
+                        
                 </main>
         );
 };
