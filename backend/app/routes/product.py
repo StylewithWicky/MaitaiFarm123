@@ -110,8 +110,46 @@ def list_products(category: str = Query(None), db: Session = Depends(get_db)):
         print(f"❌ DATABASE ERROR: {e}")
         return {"products": [], "error": str(e)}
     
+# In backend/app/routes/product.py
 
-# --- 3. DELETE PRODUCT ---
+@router.get("/detail/{product_id}") # Make sure there is no extra '/products' here if the router has a prefix
+def get_product_detail(product_id: int, db: Session = Depends(get_db)):
+    print(f"📡 Detail Request for ID: {product_id}") # Debug log
+    
+    product = db.query(Product).filter(Product.id == product_id).first()
+    
+    if not product:
+        print(f"❌ Product {product_id} not found in DB")
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    # Return the data exactly how React expects it
+    return {
+        "id": product.id,
+        "name": product.name,
+        "price": product.price,
+        "category": getattr(product, 'category', 'General'),
+        "description": getattr(product, 'description', 'No description available'),
+        "stock": getattr(product, 'stock', 0),
+        "breed": getattr(product, 'breed', None),
+        "sex": getattr(product, 'sex', None),
+        "image": getattr(product, 'image', None)
+    }
+@router.put("/{product_id}", response_model=ProductResponse)
+def update_product(product_id: int, data: ProductCreate, db: Session = Depends(get_db)):
+    product = db.query(Product).filter(Product.id == product_id).first()
+    
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    # Update the fields using the same setattr logic we used for creation
+    update_data = data.dict()
+    for key, value in update_data.items():
+        setattr(product, key, value)
+
+    db.commit()
+    db.refresh(product)
+    return product
+
 @router.delete("/{product_id}")
 def delete_product(product_id: int, db: Session = Depends(get_db)):
     product = db.query(Product).filter(Product.id == product_id).first()
