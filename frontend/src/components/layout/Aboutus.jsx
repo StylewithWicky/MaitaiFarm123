@@ -4,7 +4,7 @@ import { Leaf, HeartHandshake, ShieldCheck } from "lucide-react";
 
 const AboutSection = () => {
   return (
-    <section className={styles.aboutSection}>
+    <section id="about-section" className={styles.aboutSection}>
       <div className={styles.container}>
         <h2 className={styles.title}>About Maitai Farm</h2>
 

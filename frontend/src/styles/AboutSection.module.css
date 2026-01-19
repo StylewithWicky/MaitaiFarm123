@@ -98,6 +98,58 @@
   line-height: 1.6;
   color: #6b7280;
 }
+.aboutSection {
+    padding: 100px 20px;
+    background-color: #ffffff;
+    scroll-margin-top: 80px; /* Prevents the Navbar from covering the title */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.title {
+    font-size: 2.5rem;
+    color: #2e7d32; /* Maitai Green */
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+    line-height: 1.8;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.card {
+    padding: 40px;
+    background: #f9fbf9;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+    border: 1px solid #edf2ed;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.icon {
+    width: 48px;
+    height: 48px;
+    color: #2e7d32;
+    margin-bottom: 20px;
+}
 
 /* Small adjustments for mobile */
 @media (max-width: 640px) {
