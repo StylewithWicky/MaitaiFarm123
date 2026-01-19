@@ -21,6 +21,13 @@ const AdminNavBar = () => {
     return location.pathname === path ? styles["active-link"] : "";
   };
 
+  const handleLogout = () => {
+  localStorage.removeItem("adminToken");
+  localStorage.removeItem("userRole");
+  localStorage.removeItem("username");
+  window.location.href = "/admin/login";
+};
+
   return (
     <nav className={styles.nav}>
       <ul className={styles.navList}>
@@ -97,6 +104,11 @@ const AdminNavBar = () => {
             Post
           </Link>
         </li>
+        <li className={styles["hide-on-mobile"]}>
+  <button onClick={handleLogout} className={styles.logoutButton}>
+    Logout
+  </button>
+</li>
 
         <li className={styles["menu-button"]}>
           <button
@@ -170,6 +182,11 @@ const AdminNavBar = () => {
             Post
           </Link>
         </li>
+        <li>
+  <button onClick={handleLogout} className={styles.sidebarLogout}>
+    Logout ({localStorage.getItem("username")})
+  </button>
+</li>
       </ul>
     </nav>
   );

@@ -9,6 +9,8 @@ import AdminLogin from "./components/auth/LoginForm";
 import Home from "./pages/Home"; 
 import ProductGrid from "@/admin/product/ProductGrid"; 
 import ProductDetails from "@/admin/product/ProductDetails"; 
+import ProductUpload from "@/admin/product/uploads/ProductUpload";
+
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("adminToken");
   return token ? children : <Navigate to="/admin/login" replace />;
@@ -24,19 +26,18 @@ function App() {
         
         <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
           
-         
+          <Route index element={<Navigate to="dashboard" replace />} />
+          
           <Route path="dashboard" element={<Home />} />
-
-         
           <Route path="products/:category" element={<ProductGrid />} />
-          
-          
+          <Route path="upload" element={<ProductUpload />} />
           <Route path="products/:category/:id" element={<ProductDetails />} />
+          
         </Route>
 
        
-        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
         <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route path="*" element={<div style={{padding: "50px"}}>404 - Page Not Found</div>} />
       </Routes>
     </Router>
   );

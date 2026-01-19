@@ -243,3 +243,23 @@ display: inline-flex;
  padding: 18px;
  }
 }
+.logoutButton {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.logoutButton:hover {
+  background: #cc0000;
+}
+
+.welcome-text {
+  color: #555;
+  font-style: italic;
+  margin-right: 10px;
+}
