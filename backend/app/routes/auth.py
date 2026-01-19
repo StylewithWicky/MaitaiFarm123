@@ -25,7 +25,7 @@ def register_user( db: Session = Depends(get_db),request_data:RegisterRequest=Bo
     
     hashed_pw = hash_password(request_data.password)
     new_user = User(
-        username=request_data.username,
+        username=request_data.username, 
         email=request_data.email,
         password_hash=hashed_pw
     )
@@ -68,7 +68,7 @@ def login_user(response: Response, db: Session = Depends(get_db),request_data:Lo
 
     return {
         "message": "Login successful",
-        "username": user.username,
+        
         "role": user.role or "user"
     }
     pass
