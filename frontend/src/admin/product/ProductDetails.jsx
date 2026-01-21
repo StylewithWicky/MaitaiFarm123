@@ -70,7 +70,7 @@ const ProductDetails = () => {
 
     // 3. Guest Action: WhatsApp Inquiry
     const handleWhatsAppInquiry = () => {
-        const phoneNumber = "254123456789"; // Your farm number
+        const phoneNumber = "254728581959"; 
         const message = `Hello Maitai Farm, I am interested in the ${item.name} (${category}). Is it currently available?`;
         window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
     };

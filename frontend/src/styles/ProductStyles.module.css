@@ -400,7 +400,48 @@
 .deleteBtn:hover {
     background-color: #ffebee;
 }
+/* WhatsApp Inquiry Button */
+.whatsappBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #25D366; /* Official WhatsApp Green */
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+    width: 100%; /* Full width on mobile, auto on desktop */
+}
 
+.whatsappBtn:hover {
+    background-color: #128C7E; /* Darker WhatsApp Green */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3);
+}
+
+.whatsappBtn:active {
+    transform: translateY(0);
+}
+
+/* Ensure the actionRow handles the button width correctly */
+.actionRow {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .actionRow {
+        flex-direction: column;
+    }
+}
 @media (max-width: 968px) {
   .masterCard {
     grid-template-columns: 1fr;
