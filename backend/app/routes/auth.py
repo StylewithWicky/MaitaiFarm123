@@ -42,25 +42,25 @@ def create_access_token(data: dict):
 
 @router.post('/login')
 def login_user(response: Response, db: Session = Depends(get_db),request_data:LoginRequest=Body(...)):
-    # 1. Find User
+    
     user = db.query(User).filter(User.email == request_data.email).first()
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    # 2. Verify Password
+    
     result = check_and_update_hash(request_data.password, user.password_hash)
     if not result:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    # 3. Create Token
+    
     access_token = create_access_token({"sub": str(user.id), "role": user.role or "user"})
 
-    # 4. Set Cookie
+    
     response.set_cookie(
         key="token",
         value=access_token,
         httponly=True,
-        secure=False, # Set to True if using HTTPS
+        secure=False, 
         samesite="Lax",
         max_age=masettings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         path="/"
