@@ -4,18 +4,17 @@
   align-items: center;
   justify-content: center;
   
-  /* 1. Remove margin so it touches the top of the browser */
+ 
   margin: top -10px;; 
   
-  /* 2. Add padding-top equal to or greater than your navbar height 
-     This ensures your text starts below the glass line */
+  
   padding: 120px 2rem 4rem 2rem; 
   
-  /* 3. Make it full screen for that premium vibe */
+  
   min-height: 100vh; 
   text-align: center;
 
-  /* Background image */
+  
   background-image:
     linear-gradient(
       rgba(24, 61, 36, 0.45), /* Slightly lighter to let colors pop */

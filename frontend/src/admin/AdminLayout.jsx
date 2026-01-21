@@ -9,20 +9,16 @@ const AdminLayout = () => {
 
     return (
         <div className={styles.adminWrapper}>
-            {/* STICKY NAVBAR: Always stays at the top */}
             <AdminNavBar />
 
             <main className={styles.mainContent}>
-                {/* The <Outlet /> is the "Magic Window". 
-                  If you are at /admin/dashboard, it shows your Hero/Slider.
-                  If you are at /admin/products/Honey, it shows your Honey Grid.
-                */}
+                
                 <div key={location.pathname} className={styles.fadeAnimation}>
                     <Outlet />
                 </div>
             </main>
 
-            {/* GLOBAL FOOTER: Always stays at the bottom */}
+            
             <AdminFooter />
         </div>
     );

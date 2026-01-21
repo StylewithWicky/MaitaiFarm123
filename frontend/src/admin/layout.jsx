@@ -11,14 +11,14 @@ export default function AdminLayout({ children }) {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        // Check if user is logged in
+        
         let response = await fetch(`${BACKEND_URL}/api/is_logged_in`, {
           method: 'GET',
-          credentials: 'include', // include cookies
+          credentials: 'include', 
           cache: 'no-store',
         });
 
-        // If token expired, try refreshing
+        
         if (!response.ok) {
           const refreshRes = await fetch(`${BACKEND_URL}/api/refresh`, {
             method: 'POST',
@@ -40,7 +40,6 @@ export default function AdminLayout({ children }) {
 
         const data = await response.json();
 
-        // Only allow admin access
         if (data.role !== 'admin') {
           navigate('/guest/login', { replace: true });
           return;

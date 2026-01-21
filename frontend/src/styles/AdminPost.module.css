@@ -1,6 +1,6 @@
 .postWrapper {
     max-width: 900px;
-    margin: 100px auto 40px; /* Top margin to clear the AdminNavBar */
+    margin: 100px auto 40px;
     padding: 2rem;
     background: #ffffff;
     border-radius: 12px;
@@ -14,7 +14,7 @@
 }
 
 .postHeader h2 {
-    color: #1a3a3a; /* Deep farm green/slate */
+    color: #1a3a3a; 
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
 }
@@ -34,8 +34,6 @@
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
 }
-
-/* Responsive rows for mobile */
 @media (max-width: 768px) {
     .row {
         grid-template-columns: 1fr;
@@ -66,7 +64,7 @@
 
 .inputGroup input:focus {
     outline: none;
-    border-color: #2e7d32; /* Maitai Green */
+    border-color: #2e7d32; 
     box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
 }
 

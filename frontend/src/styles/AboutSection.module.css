@@ -1,10 +1,7 @@
-/* =========================
-   MAITAI FARM: ABOUT SECTION
-========================= */
+
 
 .aboutSection {
   padding: 5rem 1.5rem;
-  /* Soft, creamy background instead of cold grey */
   background: #ffffff; 
   display: flex;
   justify-content: center;
@@ -20,7 +17,7 @@
   font-family: "Playfair Display", serif;
   font-size: clamp(2rem, 5vw, 2.75rem);
   font-weight: 700;
-  color: #2F3E2F; /* Maitai Dark Text */
+  color: #2F3E2F; 
   letter-spacing: -0.5px;
 }
 
@@ -35,22 +32,18 @@
   margin-right: auto;
 }
 
-/* =========================
-   FEATURES GRID
-========================= */
+
 .features {
   margin-top: 4rem;
   display: grid;
   gap: 2.5rem;
-  /* Responsive grid that stays balanced */
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .card {
   background: #ffffff;
-  border-radius: 24px; /* Soft, Pinterest-style curves */
+  border-radius: 24px; 
   padding: 3rem 2rem;
-  /* Very light green border to tie into the theme */
   border: 1px solid rgba(76, 175, 80, 0.1); 
   box-shadow: 0 12px 30px rgba(47, 62, 47, 0.04);
   text-align: center;
@@ -59,20 +52,18 @@
 
 .card:hover {
   transform: translateY(-10px);
-  border-color: #4CAF50; /* Primary Green */
+  border-color: #4CAF50; 
   box-shadow: 0 20px 40px rgba(46, 125, 50, 0.1);
 }
-
-/* ICON STYLING */
 .icon {
   width: 48px;
   height: 48px;
-  color: #2E7D32; /* Dark Green theme */
+  color: #2E7D32; 
   margin: 0 auto 1.5rem auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #E8F5E9; /* Light green wash behind icon */
+  background: #E8F5E9; 
   border-radius: 50%;
   padding: 12px;
   transition: all 0.3s ease;
@@ -83,7 +74,7 @@
   color: #ffffff;
 }
 
-/* CARD TYPOGRAPHY */
+
 .card h3 {
   font-family: "Playfair Display", serif;
   font-size: 1.4rem;
@@ -101,7 +92,7 @@
 .aboutSection {
     padding: 100px 20px;
     background-color: #ffffff;
-    scroll-margin-top: 80px; /* Prevents the Navbar from covering the title */
+    scroll-margin-top: 80px; 
 }
 
 .container {
@@ -112,7 +103,7 @@
 
 .title {
     font-size: 2.5rem;
-    color: #2e7d32; /* Maitai Green */
+    color: #2e7d32; 
     margin-bottom: 20px;
 }
 
@@ -151,7 +142,7 @@
     margin-bottom: 20px;
 }
 
-/* Small adjustments for mobile */
+
 @media (max-width: 640px) {
   .aboutSection { padding: 3.5rem 1rem; }
   .features { margin-top: 2.5rem; }
