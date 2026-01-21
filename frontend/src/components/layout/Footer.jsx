@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "@/styles/Footer.module.css";
-import { MapPin, Phone, Mail, Facebook, Instagram,  } from "lucide-react";
+import { MapPin, Phone, Mail, Facebook, Instagram,Youtube  } from "lucide-react";
 
 const Footer = () => {
         return (
@@ -44,8 +44,8 @@ const Footer = () => {
                                         <h4 className={styles.heading}>Follow Us</h4>
                                         <div className={styles.socials}>
                                                 <a href="https://www.facebook.com/profile.php?id=61555882814110&mibextid=ZbWKwL"><Facebook size={18} /></a>
-                                                <a href="#"><Instagram size={18} /></a>
-                                                {/*<a href="#"><TikTok size={18} /></a>*/}
+                                                <a href="https://www.instagram.com/maitaifarm?igsh=MXgxbnk1Z2w2cnQzNA=="><Instagram size={18} /></a>
+                                                <a href="https://www.youtube.com/@MAITAIFARM/shorts"><Youtube size={18} /></a>
                                         </div>
                                 </div>
                         </div>
