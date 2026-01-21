@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, Edit, ShieldCheck, Database, Save, XCircle, Trash2 } from 'lucide-react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { ChevronLeft, Edit, ShieldCheck, Database, Save, XCircle, Trash2, MessageCircle } from 'lucide-react';
 import styles from '@/styles/ProductStyles.module.css';
 
 const ProductDetails = () => {
     const { id, category } = useParams(); 
     const navigate = useNavigate();
+    const location = useLocation();
     
     // States
     const [item, setItem] = useState(null);
@@ -13,7 +14,10 @@ const ProductDetails = () => {
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(true);
 
-    // 1. Fetch Item Details
+    // 1. Role Check
+    const isAdmin = localStorage.getItem("userRole") === "admin" && location.pathname.startsWith('/admin');
+
+    // 2. Fetch Item Details
     useEffect(() => {
         if (id && id !== "undefined") {
             fetch(`${import.meta.env.VITE_BACKEND_URL}/products/detail/${id}`)
@@ -23,7 +27,7 @@ const ProductDetails = () => {
                 })
                 .then(data => {
                     setItem(data);
-                    setFormData(data); // Pre-fill form with current data
+                    setFormData(data); 
                     setLoading(false);
                 })
                 .catch(err => {
@@ -33,13 +37,11 @@ const ProductDetails = () => {
         }
     }, [id]);
 
-    // 2. Handle Input Changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    // 3. Save Changes (PUT)
     const handleSave = async () => {
         try {
             const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/products/${id}`, {
@@ -59,12 +61,18 @@ const ProductDetails = () => {
         }
     };
 
-    // 4. Delete Product
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this product from Maitai Farm?")) {
             const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/products/${id}`, { method: 'DELETE' });
             if (res.ok) navigate(-1);
         }
+    };
+
+    // 3. Guest Action: WhatsApp Inquiry
+    const handleWhatsAppInquiry = () => {
+        const phoneNumber = "254123456789"; // Your farm number
+        const message = `Hello Maitai Farm, I am interested in the ${item.name} (${category}). Is it currently available?`;
+        window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
     };
 
     if (loading) return <div className={styles.wrapper}><p>Loading Product Records...</p></div>;
@@ -84,26 +92,16 @@ const ProductDetails = () => {
                 <div className={styles.infoBox}>
                     <span className={styles.badge}>Maitai Certified Premium</span>
                     
-                    {/* Title Section (Editable) */}
+                    {/* Title Section */}
                     {isEditing ? (
-                        <input 
-                            className={styles.editInput}
-                            name="name" 
-                            value={formData.name} 
-                            onChange={handleChange} 
-                        />
+                        <input className={styles.editInput} name="name" value={formData.name} onChange={handleChange} />
                     ) : (
                         <h1 className={styles.detailTitle}>{item.name}</h1>
                     )}
 
-                    {/* Description Section (Editable) */}
+                    {/* Description Section */}
                     {isEditing ? (
-                        <textarea 
-                            className={styles.editTextarea}
-                            name="description" 
-                            value={formData.description} 
-                            onChange={handleChange} 
-                        />
+                        <textarea className={styles.editTextarea} name="description" value={formData.description} onChange={handleChange} />
                     ) : (
                         <p className={styles.description}>{item.description}</p>
                     )}
@@ -120,18 +118,10 @@ const ProductDetails = () => {
                         <div className={styles.stat}>
                             <ShieldCheck size={18}/> <span>Quality Inspected</span>
                         </div>
-                        
-                        {/* Breed/Sex (Only show if relevant) */}
-                        {(item.breed || isEditing) && (
-                            <div className={styles.stat}>
-                                <strong>Breed:</strong> 
-                                {isEditing ? <input name="breed" value={formData.breed} onChange={handleChange} /> : item.breed}
-                            </div>
-                        )}
                     </div>
 
                     <div className={styles.priceSection}>
-                        <label>Current Market Price (KES)</label>
+                        <label>{isAdmin ? "Current Market Price (KES)" : "Price"}</label>
                         {isEditing ? (
                             <input type="number" name="price" value={formData.price} onChange={handleChange} className={styles.priceInput} />
                         ) : (
@@ -139,26 +129,26 @@ const ProductDetails = () => {
                         )}
                     </div>
 
-                    {/* Button Controls */}
+                    {/* Button Controls: Admin vs Guest */}
                     <div className={styles.actionRow}>
-                        {isEditing ? (
-                            <>
-                                <button className={styles.saveBtn} onClick={handleSave}>
-                                    <Save size={20}/> Save Changes
-                                </button>
-                                <button className={styles.cancelBtn} onClick={() => setIsEditing(false)}>
-                                    <XCircle size={20}/> Cancel
-                                </button>
-                            </>
+                        {isAdmin ? (
+                            // ADMIN CONTROLS
+                            isEditing ? (
+                                <>
+                                    <button className={styles.saveBtn} onClick={handleSave}><Save size={20}/> Save Changes</button>
+                                    <button className={styles.cancelBtn} onClick={() => setIsEditing(false)}><XCircle size={20}/> Cancel</button>
+                                </>
+                            ) : (
+                                <>
+                                    <button className={styles.editBtn} onClick={() => setIsEditing(true)}><Edit size={20}/> Edit Details</button>
+                                    <button className={styles.deleteBtn} onClick={handleDelete}><Trash2 size={20}/> Delete</button>
+                                </>
+                            )
                         ) : (
-                            <>
-                                <button className={styles.editBtn} onClick={() => setIsEditing(true)}>
-                                    <Edit size={20}/> Edit Details
-                                </button>
-                                <button className={styles.deleteBtn} onClick={handleDelete}>
-                                    <Trash2 size={20}/> Delete
-                                </button>
-                            </>
+                            // GUEST CONTROLS
+                            <button className={styles.whatsappBtn} onClick={handleWhatsAppInquiry}>
+                                <MessageCircle size={20}/> Inquire on WhatsApp
+                            </button>
                         )}
                     </div>
                 </div>

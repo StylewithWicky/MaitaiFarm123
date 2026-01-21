@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { Eye, Trash2, Plus } from 'lucide-react';
 import styles from '@/styles/ProductStyles.module.css';
 
@@ -7,14 +7,18 @@ const ProductGrid = () => {
     const { category } = useParams();
     const [products, setProducts] = useState([]);
     const navigate = useNavigate(); 
+    const location = useLocation(); // To check if we are on the admin path
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+    // 1. Check if the user is an admin
+   
+    const isAdmin = localStorage.getItem("userRole") === "admin" && location.pathname.startsWith('/admin');
 
     const handleAddClick = () => {
         navigate('/admin/upload', { state: { selectedCategory: category } });
     };
 
     useEffect(() => {
-        // Fetch products by category
         fetch(`${backendUrl}/products/?category=${category}`)
             .then(res => {
                 if (!res.ok) throw new Error('Network response was not ok');
@@ -31,7 +35,6 @@ const ProductGrid = () => {
         
         if (window.confirm("Are you sure you want to delete this product?")) {
             try {
-                // ✅ Using environment variable instead of hardcoded localhost
                 const response = await fetch(`${backendUrl}/products/${productId}`, {
                     method: "DELETE",
                 });
@@ -50,10 +53,14 @@ const ProductGrid = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                <h2 className={styles.heading}>{category} Inventory</h2>
-                <button className={styles.addBtn} onClick={handleAddClick}>
-                    <Plus size={18}/> Add New {category}
-                </button>
+                <h2 className={styles.heading}>{category} {isAdmin ? 'Inventory' : 'Listings'}</h2>
+                
+                {/* 2. ONLY show Add button if Admin */}
+                {isAdmin && (
+                    <button className={styles.addBtn} onClick={handleAddClick}>
+                        <Plus size={18}/> Add New {category}
+                    </button>
+                )}
             </div>
 
             <div className={styles.grid}>
@@ -66,23 +73,33 @@ const ProductGrid = () => {
                             <div className={styles.content}>
                                 <h3 className={styles.productName}>{item.name}</h3>
                                 <div className={styles.priceTag}>KES {item.price.toLocaleString()}</div>
+                                
                                 <div className={styles.actions}>
-                                    {/* ✅ Ensures the ID matches the :id param in App.js */}
-                                    <Link to={`/admin/products/${category}/${item.id}`} className={styles.viewLink}>
+                                    {/* 3. Dynamically change the Link path based on role */}
+                                    <Link 
+                                        to={isAdmin ? `/admin/products/${category}/${item.id}` : `/products/${category}/${item.id}`} 
+                                        className={styles.viewLink}
+                                    >
                                         <Eye size={16}/> View Details
                                     </Link>
-                                    <button 
-                                        className={styles.deleteBtn} 
-                                        onClick={() => handleDelete(item.id)}
-                                    >
-                                        <Trash2 size={16}/> Delete
-                                    </button>
+
+                                    {/* 4. ONLY show Delete button if Admin */}
+                                    {isAdmin && (
+                                        <button 
+                                            className={styles.deleteBtn} 
+                                            onClick={() => handleDelete(item.id)}
+                                        >
+                                            <Trash2 size={16}/> Delete
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <div className={styles.noData}>No {category} listings found. Click "Add New" to create one.</div>
+                    <div className={styles.noData}>
+                        No {category} listings found. {isAdmin && 'Click "Add New" to create one.'}
+                    </div>
                 )}
             </div>
         </div>
