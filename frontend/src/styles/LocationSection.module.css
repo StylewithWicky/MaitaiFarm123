@@ -1,0 +1,93 @@
+.wrapper {
+    padding: 80px 20px;
+    background-color: #fdfdfd;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.infoSide {
+    flex: 1;
+}
+
+.heading {
+    font-size: 2.5rem;
+    color: #2d5a27; /* Farm Green */
+    margin-bottom: 15px;
+}
+
+.subheading {
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.detailsList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.detailItem {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.icon {
+    color: #2d5a27;
+    flex-shrink: 0;
+}
+
+.detailItem h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.detailItem p {
+    margin: 5px 0 0 0;
+    color: #666;
+}
+
+.directionBtn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 25px;
+    background-color: #2d5a27;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.directionBtn:hover {
+    background-color: #1e3d1a;
+}
+
+.mapSide {
+    flex: 1.2;
+    height: 450px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+    }
+    .mapSide {
+        width: 100%;
+        height: 350px;
+    }
+}

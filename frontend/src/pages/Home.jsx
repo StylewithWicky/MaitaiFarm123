@@ -5,6 +5,7 @@ import ProductSlider from "@/components/layout/heroSlider";
 import WhyChooseUs from "@/components/layout/WhyChooseUs";
 import AboutSection from "@/components/layout/AboutUs";
 import AdminFooter from "@/components/layout/AdminFooter";
+import LocationSection from "@/components/layout/LocationSection";
 
 const Home = () => {
         return (
@@ -14,6 +15,7 @@ const Home = () => {
                         <ProductSlider />
                         <WhyChooseUs />
                         <AboutSection />
+                        <LocationSection />
                         
                 </main>
         );
