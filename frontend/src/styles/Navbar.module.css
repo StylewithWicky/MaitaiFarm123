@@ -1,265 +1,256 @@
 /* =========================
-   NAVBAR WRAPPER (GLASS)
-========================= */
+   NAVBAR CONTAINER (DYNAMIC)
+   ========================= */
 .navbar {
- position: fixed;
- top: 0;
- width: 100%;
- z-index: 3000;
- border-bottom: none;
- background: transparent;
- background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%);
- 
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 5000;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Initial state over video: subtle dark gradient for text visibility */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
 }
 
-/* =========================
-   NAV LIST
-========================= */
+/* Glass effect triggered by scroll JS */
+.navbarScrolled {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+}
+
 .navList {
- list-style: none;
- display: flex;
- flex-wrap: nowrap;
- align-items: center;
- justify-content: flex-end;
- gap: 2rem;
- width: 100%;
- padding: 0 2rem;
- margin: 0 auto;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  max-width: 1400px;
+  padding: 1.2rem 2rem;
+  margin: 0 auto;
+}
+
+.navbarScrolled .navList {
+  padding: 0.8rem 2rem;
 }
 
 /* =========================
-   LOGO
-========================= */
+   LOGO
+   ========================= */
 .logo-item {
- margin-right: auto;
- display: flex;
- align-items: center;
-text-decoration: none;
-  color: #ffffff; /* Crisp white for that high-end look */
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 0.9rem;
+  margin-right: auto;
 }
-
 
 .logoLink {
-display: inline-flex;
- align-items: center;
- gap: 0.5rem;
- text-decoration: none;
- font-weight: 700;
- color: #14532d;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
 }
 
+.logoLink:hover {
+  transform: scale(1.05);
+}
 
 /* =========================
-   NAV LINKS
-========================= */
+   NAV LINKS & BUTTONS
+   ========================= */
 .nav-link {
- text-decoration: none;
- height: 50px;
- padding: 0 20px;
- display: flex;
- align-items: center;
- color: #1f3d2b;
- background-color: transparent;
- white-space: nowrap;
- font-weight: 500;
+  text-decoration: none;
+  background: none;
+  border: none;
+  color: #ffffff; /* White text for the video hero */
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+/* Change link color when scrolling past the video */
+.navbarScrolled .nav-link {
+  color: #1a3d24; /* Deep Forest Green */
 }
 
 .nav-link:hover {
- color: #166534;
- font-weight: 600;
-}
-
-.active-link {
- color: #166534;
- font-weight: 700;
+  color: #2ecc71; /* Maitai Bright Green */
 }
 
 /* =========================
-   DROPDOWN
-========================= */
+   DROPDOWN MENU
+   ========================= */
 .travel-dropdown {
- position: relative;
-}
-
-.travel-link {
- color: #1f3d2b;
- text-decoration: none;
- padding: 10px 15px;
- display: block;
- cursor: pointer;
- transition: color 0.3s ease;
-}
-
-.travel-link:hover {
- color: #166534;
+  position: relative;
 }
 
 .dropdown-menu {
-     display: none;
- position: absolute;
- top: 100%;
- left: 0;
- background: rgba(255, 255, 255, 0.75);
- backdrop-filter: blur(14px);
- -webkit-backdrop-filter: blur(14px);
- list-style: none;
- padding: 0.5rem 0;
- margin: 0;
- border-radius: 12px;
- min-width: 220px;
- box-shadow: 0 10px 25px rgba(0,0,0,0.15);
- z-index: 100;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  min-width: 230px;
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+  padding: 12px 0;
+  z-index: 100;
+  border: 1px solid rgba(0,0,0,0.05);
 }
 
-.travel-dropdown:hover .dropdown-menu {
- display: block;
+/* Show Dropdown Animation */
+.showDropdown {
+  display: block;
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dropdown-menu li {
- width: 100%;
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.dropdown-menu li .travel-link {
- color: #1f3d2b;
- padding: 10px 16px;
+.travel-link {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 12px 22px;
+  color: #1a3d24;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  display: block;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
-.dropdown-menu li .travel-link:hover {
- background-color: rgba(22, 101, 52, 0.08);
+.travel-link:hover {
+  background: #f0fdf4;
+  color: #16a34a;
+  padding-left: 28px; /* Lively slide-right effect */
 }
 
-/* =========================
-   ICON BUTTONS
-========================= */
-.navIconButton {
- background: none;
- border: none;
- cursor: pointer;
- padding: 0 20px;
- height: 100%;
- display: flex;
- align-items: center;
+.dropdownDivider {
+  border-top: 1px solid #f1f1f1;
+  margin: 8px 0;
 }
 
-/* =========================
-   MENU BUTTON
-========================= */
-.menu-button {
- display: none;
-}
-
-.menu-button svg {
- width: 26px;
- height: 26px;
- stroke: #1f3d2b;
-}
-
-.menu-button:hover svg {
- stroke: #166534;
+/* Dropdown Arrow Animation */
+.rotate {
+  transform: rotate(180deg);
+  color: #2ecc71;
+  transition: 0.3s ease;
 }
 
 /* =========================
-   SIDEBAR (MOBILE)
-========================= */
+   MOBILE SIDEBAR
+   ========================= */
 .sidebar {
- position: absolute;
- top: 0;
- right: 0;
- width: 100%;
- background: rgba(255, 255, 255, 0.85);
- backdrop-filter: blur(16px);
- -webkit-backdrop-filter: blur(16px);
-
- border-radius: 12px;
- box-shadow: 0 10px 30px rgba(0,0,0,0.18);
- color: #1f3d2b;
-
- display: flex;
- flex-direction: column;
- justify-content: flex-start;
- align-items: flex-start;
- padding: 1rem;
- z-index: 2000;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 320px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 2rem;
+  z-index: 6000;
+  box-shadow: -20px 0 40px rgba(0,0,0,0.1);
+  transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 .hide-sidebar {
- display: none;
+  transform: translateX(100%);
+}
+
+.close-button {
+  align-self: flex-end;
+  margin-bottom: 2.5rem;
 }
 
 .sidebar li {
- width: 100%;
- margin: 0.25rem 0;
+  list-style: none;
+  margin-bottom: 1rem;
 }
 
-/* =========================
-   CLOSE BUTTON
-========================= */
-.close-button {
- width: 100%;
- display: flex;
- padding: 15px 20px;
-}
-
-.close-button svg {
- width: 28px;
- height: 28px;
- stroke: #1f3d2b;
-}
-
-.close-button:hover svg {
- stroke: #166534;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-.hide-on-mobile {
-display: inline-flex;
-}
-
-@media screen and (max-width: 900px) { .menu-button {
- display: flex;
- align-items: center;
- }
-
- .hide-on-mobile {
- display: none;
- }
-
- .logo-item {
- display: inline-flex; }
-
- .navList {
- justify-content: flex-end;
-}
-}
-
-@media screen and (max-width: 600px) { .navIconButton,
-.close-button {
- padding: 18px;
- }
-}
-.logoutButton {
-  background: #ff4d4d;
-  color: white;
+.sidebar a, .sidebar button {
+  text-decoration: none;
+  color: #1a3d24;
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: none;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  font-family: inherit;
   cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
+  display: block;
+  text-align: left;
+  padding: 10px 0;
 }
 
-.logoutButton:hover {
-  background: #cc0000;
+/* Section labels for Mobile sidebar */
+.sidebarLabel {
+  font-size: 0.75rem !important;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 2.5px;
+  margin: 1.5rem 0 0.5rem 0;
+  font-weight: 600 !important;
 }
 
-.welcome-text {
-  color: #555;
-  font-style: italic;
-  margin-right: 10px;
+/* The Secret Staff Entrance */
+.secretLink {
+  margin-top: auto;
+  opacity: 0.25;
+  border-top: 1px solid #eee;
+  padding-top: 20px !important;
+}
+
+.secretLink a {
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  color: #64748b;
+}
+
+/* =========================
+   RESPONSIVE & ICON BUTTONS
+   ========================= */
+.navIconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.navIconButton:active {
+  transform: scale(0.9);
+}
+
+.menu-button {
+  display: none;
+}
+
+.hide-on-mobile {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+@media screen and (max-width: 992px) {
+  .hide-on-mobile {
+    display: none;
+  }
+  .menu-button {
+    display: block;
+  }
 }

@@ -1,111 +1,102 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Leaf, ChevronDown } from "lucide-react";
 import styles from "@/styles/Navbar.module.css";
 
 const NavBar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setSidebar] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
-  const showSidebar = (e) => {
-    e?.preventDefault();
-    setSidebar(false);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const hideSidebar = (e) => {
-    e?.preventDefault();
+  const scrollToSection = (id) => {
     setSidebar(true);
-  };
-
-  
-  const handleAboutClick = (e) => {
-    e.preventDefault();
-    setSidebar(true); 
-
     if (location.pathname === "/") {
-      
-      const element = document.getElementById("about-section");
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     } else {
-      
-      navigate("/#about-section");
+      navigate(`/#${id}`);
     }
   };
 
-  const isActive = (path) => {
-    return location.pathname === path ? styles["active-link"] : "";
+  const handleProductLink = (category) => {
+    setSidebar(true);
+    setIsDropdownOpen(false);
+    navigate(`/products/${category}`);
   };
 
   return (
-    <nav className={styles.nav}>
+    <nav className={`${styles.navbar} ${isScrolled ? styles.navbarScrolled : ""}`}>
       <ul className={styles.navList}>
         <li className={styles["logo-item"]}>
-          <Link to="/">Maitai Farm</Link>
-        </li>
-
-        {/* Desktop Links */}
-        <li className={styles["hide-on-mobile"]}>
-          <Link
-            to="/"
-            className={`${styles["nav-link"]} ${isActive("/")}`}
-          >
-            Home
+          <Link to="/" className={styles.logoLink}>
+            <Leaf size={24} color={isScrolled ? "#14532d" : "#ffffff"} />
+            <span style={{ color: isScrolled ? "#14532d" : "#ffffff" }}>MAITAI FARM</span>
           </Link>
         </li>
 
-        <li className={styles["hide-on-mobile"]}>
-          <a
-            href="#about-section"
-            onClick={handleAboutClick}
-            className={styles["nav-link"]}
-          >
-            About Us
-          </a>
-        </li>
+        <div className={styles["hide-on-mobile"]}>
+          <li><Link to="/" className={styles["nav-link"]}>Home</Link></li>
 
-        <li className={styles["hide-on-mobile"]}>
-          <div className={styles["travel-dropdown"]}>
-            <span className={styles["travel-link"]}>Products</span>
-            <ul className={styles["dropdown-menu"]}>
-              <li><Link to="/products/dorper" className={styles["travel-link"]}>Dorper Sheep</Link></li>
-              <li><Link to="/products/hives" className={styles["travel-link"]}>Bee Hives</Link></li>
-              <li><Link to="/products/honey" className={styles["travel-link"]}>Honey</Link></li>
-              <li><Link to="/products/k9" className={styles["travel-link"]}>K9</Link></li>
+          <li 
+            className={styles["travel-dropdown"]}
+            onMouseEnter={() => setIsDropdownOpen(true)}
+            onMouseLeave={() => setIsDropdownOpen(false)}
+          >
+            <button className={styles["nav-link"]}>
+              Products <ChevronDown size={14} className={isDropdownOpen ? styles.rotate : ""} />
+            </button>
+            <ul className={`${styles["dropdown-menu"]} ${isDropdownOpen ? styles.showDropdown : ""}`}>
+              <li><button onClick={() => handleProductLink("Dorper")} className={styles["travel-link"]}>Dorper Sheep</button></li>
+              <li><button onClick={() => handleProductLink("Hives")} className={styles["travel-link"]}>Bee Hives</button></li>
+              <li><button onClick={() => handleProductLink("Honey")} className={styles["travel-link"]}>Natural Honey</button></li>
+              <li><button onClick={() => handleProductLink("K9")} className={styles["travel-link"]}>K9 Security</button></li>
+              <li className={styles.dropdownDivider}></li>
+              <li><button onClick={() => navigate("/products")} className={styles["travel-link"]}>View All Inventory</button></li>
             </ul>
-          </div>
-        </li>
+          </li>
+
+          <li><button onClick={() => scrollToSection('about-section')} className={styles["nav-link"]}>About Us</button></li>
+          
+          {/* LOCATION ADDED BACK HERE */}
+          <li><button onClick={() => scrollToSection('location-section')} className={styles["nav-link"]}>Location</button></li>
+        </div>
 
         <li className={styles["menu-button"]}>
-          <button onClick={showSidebar} className={styles.navIconButton} aria-label="Open menu">
-            <Menu size={26} strokeWidth={2} />
+          <button onClick={() => setSidebar(false)} className={styles.navIconButton}>
+            <Menu size={28} color={isScrolled ? "#14532d" : "#ffffff"} />
           </button>
         </li>
       </ul>
 
-      {/* Mobile Sidebar */}
-      <ul className={isHidden ? styles["hide-sidebar"] : styles.sidebar}>
+      <ul className={`${styles.sidebar} ${isHidden ? styles["hide-sidebar"] : ""}`}>
         <li className={styles["close-button"]}>
-          <button onClick={hideSidebar} className={styles.navIconButton} aria-label="Close menu">
-            <X size={26} strokeWidth={2} />
-          </button>
+          <button onClick={() => setSidebar(true)} className={styles.navIconButton}><X size={28} /></button>
         </li>
-
-        <li><Link to="/" onClick={() => setSidebar(true)} className={styles["nav-link"]}>Home</Link></li>
-        <li>
-          <a href="#about-section" onClick={handleAboutClick} className={styles["nav-link"]}>
-            About Us
-          </a>
+        <li><Link to="/" onClick={() => setSidebar(true)}>Home</Link></li>
+        <li className={styles.sidebarLabel}>Produce</li>
+        <li><button onClick={() => handleProductLink("Dorper")}>Dorper Sheep</button></li>
+        <li><button onClick={() => handleProductLink("Honey")}>Natural Honey</button></li>
+        <li><button onClick={() => handleProductLink("K9")}>K9 Security</button></li>
+        
+        <li className={styles.sidebarLabel}>Company</li>
+        <li><button onClick={() => scrollToSection('about-section')}>About Us</button></li>
+        <li><button onClick={() => scrollToSection('location-section')}>Location</button></li>
+        
+        <li className={styles.secretLink}>
+          <Link to="/login" onClick={() => setSidebar(true)}>Staff Portal</Link>
         </li>
-        <li><Link to="/products/hives" onClick={() => setSidebar(true)} className={styles["nav-link"]}>Honey Bee Hives</Link></li>
-        <li><Link to="/products/dorper" onClick={() => setSidebar(true)} className={styles["nav-link"]}>Dorper Sheep</Link></li>
-        <li><Link to="/products/k9" onClick={() => setSidebar(true)} className={styles["nav-link"]}>K9</Link></li>
-        <li><Link to="/products/honey" onClick={() => setSidebar(true)} className={styles["nav-link"]}>Natural Honey</Link></li>
       </ul>
     </nav>
   );
 };
 
-export default NavBar;;
+export default NavBar;

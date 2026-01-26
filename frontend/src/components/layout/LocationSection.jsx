@@ -3,14 +3,15 @@ import { MapPin, Phone, Clock, Navigation } from 'lucide-react';
 import styles from '@/styles/LocationSection.module.css';
 
 const LocationSection = () => {
-  // Replace this with your actual farm coordinates or address from Google Maps
-  // This is a standard embed link for the Nairobi/Migunda area
 const mapUrl ="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63837.013733686515!2d36.4423963!3d-0.09036265000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1829d07df9855825%3A0xf74d7f465116903b!2sMuruai!5e0!3m2!1sen!2ske!4v1768988357260!5m2!1sen!2ske";
 
 
   const handleDirections = () => {
-    window.open("https://goo.gl/maps/YOUR_SPECIFIC_COORDINATES", "_blank");
-  };
+  const address = "Mailo Kumi, Ndaragwa, Kenya";
+  const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
+  
+  window.open(googleMapsUrl, "_blank");
+};
 
   return (
     <section id="location-section" className={styles.wrapper}>
