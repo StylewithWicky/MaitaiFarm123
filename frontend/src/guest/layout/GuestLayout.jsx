@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import NavBar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer"; 
 import styles from "@/styles/GuestLayout.module.css";
+import WhatsAppButton from "@/components/layout/WhatsAppButton";
 
 const GuestLayout = () => {
   return (
@@ -16,7 +17,7 @@ const GuestLayout = () => {
         <Outlet />
       </main>
 
-    
+      <WhatsAppButton />
       <Footer />
     </div>
   );
