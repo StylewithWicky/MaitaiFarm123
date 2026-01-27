@@ -44,7 +44,7 @@ app.add_middleware(
 
 # Include Routers
 app.include_router(farmer_routes.router)
-app.include_router(product_routes.router)
+app.include_router(product_routes.router, prefix="/products", tags=["products"])
 app.include_router(auth_routes.router)
 
 @app.get("/")
