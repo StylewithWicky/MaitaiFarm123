@@ -35,7 +35,7 @@ const AdminFooter = () => {
                                         <ul className={styles.contact}>
                                                 <li><MapPin size={16} /> Nairobi, Kenya</li>
                                                 <li><Phone size={16} /> +254 728 581 959</li>
-                                                <li><Mail size={16} /> maitaifarm@gmail.com</li>
+                                                <li><Mail size={16} /> itsjustmaitai@gmail.com</li>
                                         </ul>
                                 </div>
 

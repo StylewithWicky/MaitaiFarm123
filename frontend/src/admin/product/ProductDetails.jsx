@@ -8,19 +8,17 @@ const ProductDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
     
-    // States
     const [item, setItem] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(true);
 
-    // 1. Role Check
     const isAdmin = localStorage.getItem("userRole") === "admin" && location.pathname.startsWith('/admin');
 
-    // 2. Fetch Item Details
     useEffect(() => {
+        // FIX 1: URL path must match the backend route @router.get("/{product_id}")
         if (id && id !== "undefined") {
-            fetch(`${import.meta.env.VITE_BACKEND_URL}/products/detail/${id}`)
+            fetch(`${import.meta.env.VITE_BACKEND_URL}/products/${id}`)
                 .then(res => {
                     if (!res.ok) throw new Error("Product not found");
                     return res.json();
@@ -68,7 +66,6 @@ const ProductDetails = () => {
         }
     };
 
-    // 3. Guest Action: WhatsApp Inquiry
     const handleWhatsAppInquiry = () => {
         const phoneNumber = "254728581959"; 
         const message = `Hello Maitai Farm, I am interested in the ${item.name} (${category}). Is it currently available?`;
@@ -86,20 +83,19 @@ const ProductDetails = () => {
 
             <div className={styles.masterCard}>
                 <div className={styles.imageBox}>
-                    <img src={item.image || '/placeholder-farm.jpg'} alt={item.name} />
+                    {/* FIX 2: Use image_url to match backend and Cloudinary */}
+                    <img src={item.image_url || '/placeholder-farm.jpg'} alt={item.name} />
                 </div>
 
                 <div className={styles.infoBox}>
                     <span className={styles.badge}>Maitai Certified Premium</span>
                     
-                    {/* Title Section */}
                     {isEditing ? (
                         <input className={styles.editInput} name="name" value={formData.name} onChange={handleChange} />
                     ) : (
                         <h1 className={styles.detailTitle}>{item.name}</h1>
                     )}
 
-                    {/* Description Section */}
                     {isEditing ? (
                         <textarea className={styles.editTextarea} name="description" value={formData.description} onChange={handleChange} />
                     ) : (
@@ -129,10 +125,8 @@ const ProductDetails = () => {
                         )}
                     </div>
 
-                    {/* Button Controls: Admin vs Guest */}
                     <div className={styles.actionRow}>
                         {isAdmin ? (
-                            // ADMIN CONTROLS
                             isEditing ? (
                                 <>
                                     <button className={styles.saveBtn} onClick={handleSave}><Save size={20}/> Save Changes</button>
@@ -145,7 +139,6 @@ const ProductDetails = () => {
                                 </>
                             )
                         ) : (
-                            // GUEST CONTROLS
                             <button className={styles.whatsappBtn} onClick={handleWhatsAppInquiry}>
                                 <MessageCircle size={20}/> Inquire on WhatsApp
                             </button>

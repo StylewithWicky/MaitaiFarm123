@@ -7,11 +7,9 @@ const ProductGrid = () => {
     const { category } = useParams();
     const [products, setProducts] = useState([]);
     const navigate = useNavigate(); 
-    const location = useLocation(); // To check if we are on the admin path
+    const location = useLocation();
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-    // 1. Check if the user is an admin
-   
     const isAdmin = localStorage.getItem("userRole") === "admin" && location.pathname.startsWith('/admin');
 
     const handleAddClick = () => {
@@ -25,7 +23,8 @@ const ProductGrid = () => {
                 return res.json();
             })
             .then(data => {
-                setProducts(data.products || []); 
+                // FIX 1: Data is the array itself, not data.products
+                setProducts(data || []); 
             })
             .catch(err => console.error("Fetch error:", err));
     }, [category, backendUrl]);
@@ -55,7 +54,6 @@ const ProductGrid = () => {
             <div className={styles.header}>
                 <h2 className={styles.heading}>{category} {isAdmin ? 'Inventory' : 'Listings'}</h2>
                 
-                {/* 2. ONLY show Add button if Admin */}
                 {isAdmin && (
                     <button className={styles.addBtn} onClick={handleAddClick}>
                         <Plus size={18}/> Add New {category}
@@ -68,14 +66,20 @@ const ProductGrid = () => {
                     products.map((item) => (
                         <div key={item.id} className={styles.card}>
                             <div className={styles.media}>
-                                <img src={item.image || '/placeholder-dog.jpg'} alt={item.name} className={styles.productImage} />
+                                {/* FIX 2: Use image_url to match your Cloudinary backend field */}
+                                <img 
+                                    src={item.image_url || '/placeholder-dog.jpg'} 
+                                    alt={item.name} 
+                                    className={styles.productImage} 
+                                />
                             </div>
                             <div className={styles.content}>
                                 <h3 className={styles.productName}>{item.name}</h3>
-                                <div className={styles.priceTag}>KES {item.price.toLocaleString()}</div>
+                                <div className={styles.priceTag}>
+                                    KES {item.price ? item.price.toLocaleString() : '0'}
+                                </div>
                                 
                                 <div className={styles.actions}>
-                                    {/* 3. Dynamically change the Link path based on role */}
                                     <Link 
                                         to={isAdmin ? `/admin/products/${category}/${item.id}` : `/products/${category}/${item.id}`} 
                                         className={styles.viewLink}
@@ -83,7 +87,6 @@ const ProductGrid = () => {
                                         <Eye size={16}/> View Details
                                     </Link>
 
-                                    {/* 4. ONLY show Delete button if Admin */}
                                     {isAdmin && (
                                         <button 
                                             className={styles.deleteBtn} 

@@ -87,7 +87,7 @@ const ContactSection = () => {
               <div className={styles.iconBox}><Mail size={20} /></div>
               <div>
                 <h4>Email Us</h4>
-                <p>info@maitaifarm.com</p>
+                <p>itsjustmaitai@gmail.com</p>
               </div>
             </div>
             <div className={styles.infoItem}>
