@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Save, AlertCircle } from 'lucide-react';
+import { Save } from 'lucide-react';
 import styles from '@/styles/AdminPost.module.css';
 import SuccessModal from './SuccessModal'; 
 
@@ -8,7 +8,6 @@ const ProductUpload = () => {
     const location = useLocation();
     const navigate = useNavigate();
     
-    // 1. SECURITY CHECK: If not admin, kick them out
     useEffect(() => {
         const role = localStorage.getItem('userRole');
         if (role !== 'admin') {
@@ -19,6 +18,7 @@ const ProductUpload = () => {
     const preSelectedCategory = location.state?.selectedCategory || 'Honey';
 
     const [showModal, setShowModal] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
         price: '',
@@ -35,6 +35,10 @@ const ProductUpload = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+    };
+
     const handleCategoryChange = (e) => {
         setFormData({ ...formData, category: e.target.value });
     };
@@ -42,29 +46,35 @@ const ProductUpload = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Use the generic 'adminToken' we set in the login form
         const token = localStorage.getItem('adminToken'); 
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const priceValue = parseFloat(formData.price);
 
-        const payload = {
-            ...formData,
-            price: priceValue,
-            // Only send livestock data if it's a relevant category
-            breed: (formData.category === 'K9' || formData.category === 'Dorper') ? formData.breed : null,
-            sex: (formData.category === 'K9' || formData.category === 'Dorper') ? formData.sex : null,
-            dob: (formData.category === 'K9' || formData.category === 'Dorper') ? formData.dob : null,
-            reg_no: (formData.category === 'K9' || formData.category === 'Dorper') ? formData.reg_no : null,
-        };
+        const data = new FormData();
+        
+        data.append('name', formData.name);
+        data.append('price', parseFloat(formData.price));
+        data.append('description', formData.description);
+        data.append('category', formData.category);
+        data.append('stock', formData.stock);
+
+        if (formData.category === 'K9' || formData.category === 'Dorper') {
+            data.append('breed', formData.breed);
+            data.append('sex', formData.sex);
+            data.append('dob', formData.dob);
+            data.append('reg_no', formData.reg_no);
+        }
+
+        if (selectedFile) {
+            data.append('file', selectedFile);
+        }
 
         try {
             const response = await fetch(`${backendUrl}/products/farmer/1`, {
                 method: 'POST',
                 headers: { 
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}` 
                 },
-                body: JSON.stringify(payload)
+                body: data
             });
 
             if (response.ok) {
@@ -76,11 +86,10 @@ const ProductUpload = () => {
             }
         } catch (err) {
             console.error("🔥 FETCH CRASHED:", err);
-            alert("Could not reach backend. Check your internet or server status.");
+            alert("Could not reach backend.");
         }
     };
 
-    // Helper to check if we should show livestock inputs
     const isLivestock = formData.category === 'Dorper' || formData.category === 'K9';
 
     return (
@@ -112,7 +121,6 @@ const ProductUpload = () => {
                     </div>
                 </div>
 
-                {/* --- DYNAMIC LIVESTOCK FIELDS --- */}
                 {isLivestock && (
                     <div className={`${styles.row} ${styles.livestockFields}`}>
                         <div className={styles.inputGroup}>
@@ -130,8 +138,18 @@ const ProductUpload = () => {
                 )}
 
                 <div className={styles.inputGroup}>
+                    <label>Product Image</label>
+                    <input 
+                        type="file" 
+                        accept="image/*" 
+                        onChange={handleFileChange} 
+                        className={styles.fileInput}
+                    />
+                </div>
+
+                <div className={styles.inputGroup}>
                     <label>Description</label>
-                    <textarea name="description" value={formData.description} rows="4" placeholder="Details about quality, age, or harvest date..." onChange={handleChange}></textarea>
+                    <textarea name="description" value={formData.description} rows="4" placeholder="Details..." onChange={handleChange}></textarea>
                 </div>
 
                 <button type="submit" className={styles.submitBtn}>
