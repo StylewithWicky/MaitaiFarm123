@@ -10,6 +10,7 @@ class Product(Base):
     name = Column(String(100), nullable=False)
     price = Column(Float, nullable=False)
     category = Column(String(100), nullable=False, index=True)
+    image_url = Column(String, nullable=True)
     description = Column(Text, nullable=True)
     stock = Column(Integer, default=0, nullable=False)
     breed = Column(String, nullable=True)

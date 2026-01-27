@@ -1,35 +1,53 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+import os
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from sqlalchemy.orm import Session
-from sqlalchemy import text, func
-from typing import List
+import cloudinary.uploader
 from app.database.deps import get_db
 from app.models.product import Product
 from app.models.farmers import Farmer
-from app.schema.product import ProductCreate, ProductResponse
 
 router = APIRouter(prefix="/products", tags=["Products"])
 
-
-@router.post("/farmer/{farmer_id}", response_model=ProductResponse)
-def create_product(farmer_id: int, data: ProductCreate, db: Session = Depends(get_db)):
+@router.post("/farmer/{farmer_id}")
+async def create_product(
+    farmer_id: int,
+    name: str = Form(...),
+    price: float = Form(...),
+    category: str = Form(None),
+    description: str = Form(None),
+    stock: int = Form(0),
+    breed: str = Form(None),
+    sex: str = Form(None),
+    dob: str = Form(None),
+    reg_no: str = Form(None),
+    image: UploadFile = File(...),
+    db: Session = Depends(get_db)
+):
     farmer = db.query(Farmer).filter(Farmer.id == farmer_id).first()
     if not farmer:
         raise HTTPException(status_code=404, detail="Farmer not found")
 
-    product = Product()
-    incoming_data = data.dict()
+    try:
+        upload_result = cloudinary.uploader.upload(image.file)
+        image_url = upload_result.get("secure_url")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Image upload failed: {str(e)}")
 
-    
-    for key, value in incoming_data.items():
-        setattr(product, key, value)
+    product = Product(
+        name=name,
+        price=price,
+        description=description,
+        stock=stock,
+        breed=breed,
+        sex=sex,
+        dob=dob,
+        reg_no=reg_no,
+        farmer_id=farmer_id,
+        image_url=image_url
+    )
 
-
-    cat_val = (getattr(product, "category", "") or "").strip()
-
-    if not cat_val:
-        
-        name_lower = (product.name or "").lower()
-
+    if not category:
+        name_lower = name.lower()
         if "hive" in name_lower:
             product.category = "Hives"
         elif "honey" in name_lower:
@@ -41,15 +59,11 @@ def create_product(farmer_id: int, data: ProductCreate, db: Session = Depends(ge
         else:
             product.category = "General"
     else:
-        
-        normalized = cat_val.lower()
+        normalized = category.strip().lower()
         if normalized in {"k9", "dog", "dogs"}:
             product.category = "Dogs"
         else:
-            
-            product.category = cat_val.title()
-
-    product.farmer_id = farmer_id
+            product.category = category.strip().title()
 
     try:
         db.add(product)
@@ -58,93 +72,24 @@ def create_product(farmer_id: int, data: ProductCreate, db: Session = Depends(ge
         return product
     except Exception as e:
         db.rollback()
-        print(f"❌ DB ERROR: {e}")
         raise HTTPException(status_code=500, detail="Failed to save product")
 
-
 @router.get("/")
-def list_products(category: str = Query(None), db: Session = Depends(get_db)):
-    from sqlalchemy import text
-    import inspect
-    from sqlalchemy import func
-
-    print("Product model loaded from:", inspect.getfile(Product))
-    print("Has Product.category?", hasattr(Product, "category"))
-    print("Mapped columns:", list(Product.__table__.c.keys()))
-    
+def list_products(category: str = None, db: Session = Depends(get_db)):
     query = db.query(Product)
-    
     if category:
-        
         cat = category.strip().lower()
-
-        
         if cat in {"k9", "dog", "dogs"}:
             cat = "dogs"
+        from sqlalchemy import func
+        query = query.filter(func.lower(Product.category) == cat)
+    return {"products": query.all()}
 
-        query = query.filter(func.lower(func.trim(Product.category)) == cat)
-    
-    try:
-        products_data = query.all()
-        print(f"🔍 SEARCH: '{category}' | Found: {len(products_data)} items")
-
-        serialized = []
-        for p in products_data:
-            serialized.append({
-                "id": p.id,
-                "name": p.name,
-                "price": p.price,
-                "category": getattr(p, 'category', 'General'),
-                "stock": getattr(p, 'stock', 0),
-                "breed": getattr(p, 'breed', None),
-                "sex": getattr(p, 'sex', None),
-                "description": getattr(p, 'description', ''),
-                "farmer_id": getattr(p, 'farmer_id', None)
-            })
-        
-        return {"products": serialized}
-    except Exception as e:
-        print(f"❌ DATABASE ERROR: {e}")
-        return {"products": [], "error": str(e)}
-    
-
-
-@router.get("/detail/{product_id}") # Make sure there is no extra '/products' here if the router has a prefix
+@router.get("/detail/{product_id}")
 def get_product_detail(product_id: int, db: Session = Depends(get_db)):
-    print(f"📡 Detail Request for ID: {product_id}") # Debug log
-    
     product = db.query(Product).filter(Product.id == product_id).first()
-    
-    if not product:
-        print(f"❌ Product {product_id} not found in DB")
-        raise HTTPException(status_code=404, detail="Product not found")
-    
-    
-    return {
-        "id": product.id,
-        "name": product.name,
-        "price": product.price,
-        "category": getattr(product, 'category', 'General'),
-        "description": getattr(product, 'description', 'No description available'),
-        "stock": getattr(product, 'stock', 0),
-        "breed": getattr(product, 'breed', None),
-        "sex": getattr(product, 'sex', None),
-        "image": getattr(product, 'image', None)
-    }
-@router.put("/{product_id}", response_model=ProductResponse)
-def update_product(product_id: int, data: ProductCreate, db: Session = Depends(get_db)):
-    product = db.query(Product).filter(Product.id == product_id).first()
-    
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-
-
-    update_data = data.dict()
-    for key, value in update_data.items():
-        setattr(product, key, value)
-
-    db.commit()
-    db.refresh(product)
     return product
 
 @router.delete("/{product_id}")
@@ -152,7 +97,6 @@ def delete_product(product_id: int, db: Session = Depends(get_db)):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    
     db.delete(product)
     db.commit()
     return {"status": "success", "message": "Item deleted"}
