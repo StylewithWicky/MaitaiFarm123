@@ -1,26 +1,30 @@
-from sqlalchemy import create_engine 
-from sqlalchemy.orm import sessionmaker,declarative_base 
-from dotenv import load_dotenv 
 import os
 from pathlib import Path
+from sqlalchemy import create_all, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv, find_dotenv
 
 
-
-BASE_DIR = Path(__file__).resolve().parents[3]
- 
-ENV_PATH = BASE_DIR / ".env"
-
-
-if ENV_PATH.exists():
-    load_dotenv(dotenv_path=ENV_PATH)
-else:
-    raise FileNotFoundError(f".env file not found at {ENV_PATH}")
+load_dotenv(find_dotenv())
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+
+
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+
 if not DATABASE_URL:
-    raise ValueError('DATABASE_URL environment variable not set')
+    DATABASE_URL = "sqlite:///./test.db"
 
 engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-Base=declarative_base()
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
