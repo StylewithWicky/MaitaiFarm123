@@ -1,136 +1,123 @@
-import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom"; // Add useNavigate
-import { Menu, X } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, Leaf, ChevronDown, LogOut, ExternalLink } from "lucide-react";
 import styles from "@/styles/Navbar.module.css";
 
 const AdminNavBar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setSidebar] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
-  const showSidebar = (e) => {
-    e?.preventDefault();
-    setSidebar(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // UPDATED: Logic to redirect to Home Page on logout
+  const handleLogout = () => {
+    localStorage.clear(); // Clears token, role, and username
+    window.location.href = "/"; // Takes you to the public Home Page
   };
 
-  const hideSidebar = (e) => {
-    e?.preventDefault();
+  const scrollToSection = (id) => {
     setSidebar(true);
-  };
-
-  // Helper function for Smooth Scroll
-  const handleAboutClick = (e) => {
-    e.preventDefault();
-    
-    // Close sidebar first if on mobile
-    setSidebar(true);
-
     if (location.pathname === "/admin/dashboard") {
-      // If we are already on the dashboard, just scroll
-      const element = document.getElementById("about-section");
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     } else {
-      // If we are on a different page (like /admin/products/K9), 
-      // go back to dashboard with a hash
-      navigate("/admin/dashboard#about-section");
+      navigate(`/admin/dashboard#${id}`);
     }
   };
 
-  const isActive = (path) => {
-    return location.pathname === path ? styles["active-link"] : "";
+  const handleProductLink = (category) => {
+    setSidebar(true);
+    setIsDropdownOpen(false);
+    navigate(`/admin/products/${category}`);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("username");
-    window.location.href = "/admin/login";
-  };
+  const isActive = (path) => (location.pathname === path ? styles["active-link"] : "");
 
   return (
-    <nav className={styles.nav}>
+    <nav className={`${styles.navbar} ${isScrolled ? styles.navbarScrolled : ""}`}>
       <ul className={styles.navList}>
         <li className={styles["logo-item"]}>
-          <Link to="/">Maitai Farm</Link>
-        </li>
-
-        <li className={styles["hide-on-mobile"]}>
-          <Link
-            to="/admin/dashboard"
-            className={`${styles["nav-link"]} ${isActive("/admin/dashboard")}`}
-          >
-            Home
+          <Link to="/admin/dashboard" className={styles.logoLink}>
+            <Leaf size={24} color={isScrolled ? "#14532d" : "#ffffff"} />
+            <span style={{ color: isScrolled ? "#14532d" : "#ffffff" }}>MAITAI ADMIN</span>
           </Link>
         </li>
 
-        {/* UPDATED ABOUT US LINK (Desktop) */}
-        <li className={styles["hide-on-mobile"]}>
-          <a
-            href="#about-section"
-            onClick={handleAboutClick}
-            className={styles["nav-link"]}
-          >
-            About Us
-          </a>
-        </li>
+        <div className={styles["hide-on-mobile"]}>
+          <li>
+            <Link to="/admin/dashboard" className={`${styles["nav-link"]} ${isActive("/admin/dashboard")}`}>
+              Home
+            </Link>
+          </li>
 
-        <li className={styles["hide-on-mobile"]}>
-          <div className={styles["travel-dropdown"]}>
-            <span className={styles["travel-link"]}>Products</span>
-            <ul className={styles["dropdown-menu"]}>
-              <li><Link to="/admin/products/Dorper" className={styles["travel-link"]}>Dorper Sheep</Link></li>
-              <li><Link to="/admin/products/Hives" className={styles["travel-link"]}>Bee Hives</Link></li>
-              <li><Link to="/admin/products/Honey" className={styles["travel-link"]}>Honey</Link></li>
-              <li><Link to="/admin/products/K9" className={styles["travel-link"]}>K9</Link></li>
+          <li 
+            className={styles["travel-dropdown"]}
+            onMouseEnter={() => setIsDropdownOpen(true)}
+            onMouseLeave={() => setIsDropdownOpen(false)}
+          >
+            <button className={`${styles["nav-link"]} ${location.pathname.includes('products') ? styles["active-link"] : ""}`}>
+              Inventory <ChevronDown size={14} className={isDropdownOpen ? styles.rotate : ""} />
+            </button>
+            <ul className={`${styles["dropdown-menu"]} ${isDropdownOpen ? styles.showDropdown : ""}`}>
+              <li><button onClick={() => handleProductLink("Dorper")} className={styles["travel-link"]}>Dorper Sheep</button></li>
+              <li><button onClick={() => handleProductLink("Hives")} className={styles["travel-link"]}>Bee Hives</button></li>
+              <li><button onClick={() => handleProductLink("Honey")} className={styles["travel-link"]}>Natural Honey</button></li>
+              <li><button onClick={() => handleProductLink("K9")} className={styles["travel-link"]}>K9 Security</button></li>
+              <li className={styles.dropdownDivider}></li>
+              <li><button onClick={() => navigate("/admin/upload")} className={styles["travel-link"]}>+ Post New Product</button></li>
             </ul>
-          </div>
-        </li>
+          </li>
 
-        <li className={styles["hide-on-mobile"]}>
-          <Link to="/admin/upload" className={`${styles["nav-link"]} ${isActive("/admin/upload")}`}>
-            Post
-          </Link>
-        </li>
-        
-        <li className={styles["hide-on-mobile"]}>
-          <button onClick={handleLogout} className={styles.logoutButton}>Logout</button>
-        </li>
+          <li><button onClick={() => scrollToSection('about-section')} className={styles["nav-link"]}>About Edit</button></li>
+          <li><Link to="/admin/upload" className={`${styles["nav-link"]} ${isActive("/admin/upload")}`}>Upload</Link></li>
+          
+          <li>
+            <button onClick={handleLogout} className={styles.logoutButton}>
+              <LogOut size={16} /> Logout
+            </button>
+          </li>
+        </div>
 
         <li className={styles["menu-button"]}>
-          <button onClick={showSidebar} className={styles.navIconButton} aria-label="Open menu">
-            <Menu size={26} strokeWidth={2} />
+          <button onClick={() => setSidebar(false)} className={styles.navIconButton}>
+            <Menu size={28} color={isScrolled ? "#14532d" : "#ffffff"} />
           </button>
         </li>
       </ul>
 
-      {/* Sidebar */}
-      <ul className={isHidden ? styles["hide-sidebar"] : styles.sidebar}>
+      {/* Admin Sidebar */}
+      <ul className={`${styles.sidebar} ${isHidden ? styles["hide-sidebar"] : ""}`}>
         <li className={styles["close-button"]}>
-          <button onClick={hideSidebar} className={styles.navIconButton} aria-label="Close menu">
-            <X size={26} strokeWidth={2} />
-          </button>
+          <button onClick={() => setSidebar(true)} className={styles.navIconButton}><X size={28} /></button>
         </li>
-
-        <li><Link to="/admin/dashboard" className={styles["nav-link"]}>Home</Link></li>
-
-        {/* UPDATED ABOUT US LINK (Sidebar) */}
-        <li>
-          <a href="#about-section" onClick={handleAboutClick} className={styles["nav-link"]}>
-            About Us
-          </a>
-        </li>
-
-        <li><Link to="/admin/products/Hives" className={styles["nav-link"]}>Honey Bee Hives</Link></li>
-        <li><Link to="/admin/products/Dorper" className={styles["nav-link"]}>Dorper Sheep</Link></li>
-        <li><Link to="/admin/products/K9" className={styles["nav-link"]}>K9</Link></li>
-        <li><Link to="/admin/products/Honey" className={styles["nav-link"]}>Natural Honey</Link></li>
-        <li><Link to="/admin/upload" className={styles["nav-link"]}>Post</Link></li>
+        <li><Link to="/admin/dashboard" onClick={() => setSidebar(true)}>Admin Home</Link></li>
+        
+        <li className={styles.sidebarLabel}>Management</li>
+        <li><button onClick={() => handleProductLink("Dorper")}>Sheep Inventory</button></li>
+        <li><button onClick={() => handleProductLink("Honey")}>Honey Inventory</button></li>
+        <li><Link to="/admin/upload" onClick={() => setSidebar(true)}>Add New Listing</Link></li>
+        
+        <li className={styles.sidebarLabel}>Settings</li>
+        <li><button onClick={() => scrollToSection('about-section')}>Edit About Us</button></li>
         <li>
           <button onClick={handleLogout} className={styles.sidebarLogout}>
-            Logout ({localStorage.getItem("username")})
+            Logout Admin
           </button>
+        </li>
+        
+        <li className={styles.secretLink}>
+          <Link to="/" onClick={() => setSidebar(true)}>
+            <ExternalLink size={14} style={{ marginRight: '8px' }} />
+            View Public Site
+          </Link>
         </li>
       </ul>
     </nav>

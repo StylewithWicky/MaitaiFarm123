@@ -51,6 +51,11 @@
   letter-spacing: 1.5px;
   font-size: 1.2rem;
   transition: transform 0.3s ease;
+  color: white; /* Added to ensure visibility on video */
+}
+
+.navbarScrolled .logoLink {
+  color: #1a3d24;
 }
 
 .logoLink:hover {
@@ -74,6 +79,13 @@
   align-items: center;
   gap: 6px;
   transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+/* Active Link State */
+.active-link {
+  color: #2ecc71 !important;
+  background: rgba(46, 204, 113, 0.1);
 }
 
 /* Change link color when scrolling past the video */
@@ -83,6 +95,43 @@
 
 .nav-link:hover {
   color: #2ecc71; /* Maitai Bright Green */
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navbarScrolled .nav-link:hover {
+  background: rgba(46, 204, 113, 0.05);
+}
+
+/* =========================
+   LOGOUT BUTTONS
+   ========================= */
+.logoutButton {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+}
+
+.logoutButton:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
+}
+
+.sidebarLogout {
+  margin-top: 1rem;
+  width: 100%;
+  background: #fdf2f2 !important;
+  color: #e74c3c !important;
+  text-align: center !important;
+  border-radius: 12px;
+  border: 1px solid #fee2e2 !important;
 }
 
 /* =========================
@@ -153,6 +202,13 @@
 /* =========================
    MOBILE SIDEBAR
    ========================= */
+.sidebarContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 6000;
+}
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -230,6 +286,11 @@
   display: flex;
   align-items: center;
   transition: transform 0.2s ease;
+  color: white; /* Default for video background */
+}
+
+.navbarScrolled .navIconButton {
+  color: #1a3d24;
 }
 
 .navIconButton:active {

@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
-// Layouts
-import AdminLayout from "./admin/AdminLayout";
+import AdminLayout from "@/admin/AdminLayout";
 import GuestLayout from "@/guest/layout/GuestLayout";
 import LoginForm from "./components/auth/LoginForm";
 import Home from "./pages/Home"; 
 import ProductGrid from "@/admin/product/ProductGrid"; 
 import ProductDetails from "@/admin/product/ProductDetails"; 
 import ProductUpload from "@/admin/product/uploads/ProductUpload";
+import ContactSection from "./components/layout/ContactSection"; 
+import WhatsAppButton from "./components/layout/WhatsAppButton";
 
 
 const AdminRoute = ({ children }) => {
@@ -21,9 +21,14 @@ function App() {
   return (
     <Router>
       <Routes>
-       
+        
         <Route path="/" element={<GuestLayout />}>
-          <Route index element={<Home />} />
+          <Route index element={
+            <>
+              <Home />
+              <ContactSection /> 
+            </>
+          } />
           <Route path="products/:category" element={<ProductGrid />} />
           <Route path="products/:category/:id" element={<ProductDetails />} />
         </Route>
@@ -43,6 +48,9 @@ function App() {
         {/* --- 404 Redirect --- */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      
+      <WhatsAppButton />
     </Router>
   );
 }

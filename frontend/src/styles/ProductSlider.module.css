@@ -1,129 +1,111 @@
-/* =========================
-   MAITAI FARM SLIDER THEME
-========================= */
 .wrapper {
-  padding: 4rem 2rem;
-  background-color: #E8F5E9; /* Light green background for the section */
+  padding: 80px 5%;
+  background-color: #fdfdfd;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 50px;
 }
 
 .heading {
-  font-family: "Playfair Display", serif; /* Editorial Font */
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  text-align: center;
-  color: #2F3E2F; /* Your dark text color */
+  color: #2d5a27;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
 }
 
-.sliderWrap {
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+.subheading {
+  color: #666;
 }
 
 .slide {
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
+  padding: 15px; /* Creates the gap between cards */
 }
 
-/* =========================
-   PRODUCT CARDS
-========================= */
 .card {
-  background-color: #ffffff;
-  border-radius: 1.5rem; /* Smoother, Pinterest-style corners */
+  background: #fff;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 10px 20px rgba(47, 62, 47, 0.08); /* Soft organic shadow */
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1.2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
   transition: transform 0.3s ease;
-  border: 1px solid rgba(76, 175, 80, 0.1);
+  border: 1px solid #eee;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  border-color: #4CAF50; /* Primary Green on hover */
+  transform: translateY(-10px);
 }
 
 .media {
-  width: 100%;
-  position: relative;
-  aspect-ratio: 1 / 1; /* Squares look great for farm products */
-  margin-bottom: 1.2rem;
-  border-radius: 1rem;
+  height: 250px;
   overflow: hidden;
 }
 
-.mediaInner {
-  position: relative;
+.productImage {
   width: 100%;
   height: 100%;
+  object-fit: cover; /* Keeps image proportions correct */
+}
+
+.content {
+  padding: 20px;
+  text-align: center;
 }
 
 .productName {
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
-  font-size: 1.25rem;
-  color: #2F3E2F; /* Maitai Dark Text */
-  text-align: center;
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  color: #333;
+  margin-bottom: 15px;
 }
 
-/* =========================
-   NAVIGATION ARROWS
-========================= */
+.viewBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 auto;
+  background: transparent;
+  color: #2d5a27;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Custom Arrows */
 .arrow {
   position: absolute;
   top: 50%;
+  z-index: 10;
   transform: translateY(-50%);
-  background-color: #ffffff;
-  color: #2E7D32; /* Dark Green */
-  border: 1px solid rgba(46, 125, 50, 0.2);
-  padding: 0.75rem;
+  background: white;
+  border: none;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  cursor: pointer;
-  z-index: 2;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  cursor: pointer;
+  color: #2d5a27;
+  transition: 0.3s;
 }
+
+.next { right: -20px; }
+.prev { left: -20px; }
 
 .arrow:hover {
-  background-color: #2E7D32; /* Dark Green */
-  color: #ffffff;
-  box-shadow: 0 6px 15px rgba(46, 125, 50, 0.3);
+  background: #2d5a27;
+  color: white;
+}
+/* ProductSlider.module.css */
+.productImage {
+  width: 100%;
+  height: 100%;
+  display: block;   /* Ensures it takes up space */
+  object-fit: cover; /* Prevents squishing */
 }
 
-.prev {
-  left: -1.5rem;
-}
-
-.next {
-  right: -1.5rem;
-}
-
-/* =========================
-   RESPONSIVE DESIGN
-========================= */
-@media (max-width: 1024px) {
-  .heading { font-size: 1.8rem; }
-  .productName { font-size: 1.1rem; }
-  .prev { left: 0; }
-  .next { right: 0; }
-}
-
-@media (max-width: 640px) {
-  .wrapper { padding: 2rem 1rem; }
-  .card { width: 100%; }
-  .arrow { display: none !important; } /* Hide arrows on small mobile */
+.mediaInner {
+  width: 100%;
+  height: 250px;    /* Give the container a fixed height to start */
+  background-color: #f0f0f0; /* If image fails, you'll see a grey box */
 }
