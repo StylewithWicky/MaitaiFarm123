@@ -3,7 +3,7 @@ import AdminNavBar from '@/components/layout/AdminNavbar';
 import HeroText from "@/components/layout/heroText";
 import ProductSlider from "@/components/layout/heroSlider";
 import WhyChooseUs from "@/components/layout/WhyChooseUs";
-import AboutSection from "@/components/layout/AboutUs";
+import AboutSection from "@/components/layout/Aboutus";
 import AdminFooter from "@/components/layout/AdminFooter";
 import LocationSection from "@/components/layout/LocationSection";
 

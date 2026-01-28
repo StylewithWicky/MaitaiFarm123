@@ -2,7 +2,7 @@ import React from "react";
 import HeroText from "@/components/layout/heroText";
 import ProductSlider from "@/components/layout/heroSlider";
 import WhyChooseUs from "@/components/layout/WhyChooseUs";
-import AboutSection from "@/components/layout/AboutUs";
+import AboutSection from "@/components/layout/Aboutus";
 import NavBar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
