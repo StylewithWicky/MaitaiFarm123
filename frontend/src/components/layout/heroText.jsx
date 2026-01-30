@@ -37,22 +37,12 @@ const HeroText = () => {
                 >
                     Home of healthy Dorper sheep, premium honey, and sustainable farm produce.
                 </motion.p>
-                
-                <motion.button 
-                    className={styles.heroCTA}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ delay: 1 }}
-                >
-                    Explore Our Produce
-                </motion.button>
 
                 <motion.div 
                     className={styles.scrollIndicator}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 1.5, duration: 1 }}
+                    transition={{ delay: 1.2, duration: 1 }}
                     onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
                 >
                     <span>Discover More</span>
