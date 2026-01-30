@@ -6,9 +6,9 @@ import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import styles from "@/styles/ProductSlider.module.css";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import dorperImg from "@/images/sheep.png";
+import dorperImg from "@/images/sheep.jpeg";
 import honeyImg from "@/images/Honeys.png";
-import k9Img from "@/images/Dog.png";
+import k9Img from "@/images/Dog.jpeg";
 import beehiveImg from "@/images/Hives.png";
 
 const products = [
