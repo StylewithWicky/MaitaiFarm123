@@ -38,8 +38,10 @@ const NavBar = () => {
       <ul className={styles.navList}>
         <li className={styles["logo-item"]}>
           <Link to="/" className={styles.logoLink}>
-            <Leaf size={24} color={isScrolled ? "#14532d" : "#ffffff"} />
-            <span style={{ color: isScrolled ? "#14532d" : "#ffffff" }}>MAITAI FARM</span>
+            <Leaf size={24} color={isScrolled ? "#14532d" : "#22c55e"} />
+            <span style={{ color: isScrolled ? "#14532d" : "#22c55e", fontWeight: "bold" }}>
+              MAITAI FARM
+            </span>
           </Link>
         </li>
 
@@ -59,14 +61,10 @@ const NavBar = () => {
               <li><button onClick={() => handleProductLink("Hives")} className={styles["travel-link"]}>Bee Hives</button></li>
               <li><button onClick={() => handleProductLink("Honey")} className={styles["travel-link"]}>Natural Honey</button></li>
               <li><button onClick={() => handleProductLink("K9")} className={styles["travel-link"]}>K9 Security</button></li>
-              <li className={styles.dropdownDivider}></li>
-              <li><button onClick={() => navigate("/products")} className={styles["travel-link"]}>View All Inventory</button></li>
             </ul>
           </li>
 
           <li><button onClick={() => scrollToSection('about-section')} className={styles["nav-link"]}>About Us</button></li>
-          
-          {/* LOCATION ADDED BACK HERE */}
           <li><button onClick={() => scrollToSection('location-section')} className={styles["nav-link"]}>Location</button></li>
         </div>
 
@@ -77,11 +75,13 @@ const NavBar = () => {
         </li>
       </ul>
 
+      {/* Mobile Sidebar - Now purely customer facing */}
       <ul className={`${styles.sidebar} ${isHidden ? styles["hide-sidebar"] : ""}`}>
         <li className={styles["close-button"]}>
           <button onClick={() => setSidebar(true)} className={styles.navIconButton}><X size={28} /></button>
         </li>
         <li><Link to="/" onClick={() => setSidebar(true)}>Home</Link></li>
+        
         <li className={styles.sidebarLabel}>Produce</li>
         <li><button onClick={() => handleProductLink("Dorper")}>Dorper Sheep</button></li>
         <li><button onClick={() => handleProductLink("Honey")}>Natural Honey</button></li>
@@ -90,10 +90,6 @@ const NavBar = () => {
         <li className={styles.sidebarLabel}>Company</li>
         <li><button onClick={() => scrollToSection('about-section')}>About Us</button></li>
         <li><button onClick={() => scrollToSection('location-section')}>Location</button></li>
-        
-        <li className={styles.secretLink}>
-          <Link to="/login" onClick={() => setSidebar(true)}>Staff Portal</Link>
-        </li>
       </ul>
     </nav>
   );
