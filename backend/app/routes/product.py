@@ -79,17 +79,17 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
     return product
 @router.put("/{product_id}")
 def update_product(product_id: int, updated_data: dict, db: Session = Depends(get_db)):
-    # 1. Find the product in the database
     product = db.query(Product).filter(Product.id == product_id).first()
     
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
 
+    
+    protected_fields = ["id", "farmer_id"]
   
     for key, value in updated_data.items():
-        if hasattr(product, key):
+        if hasattr(product, key) and key not in protected_fields:
             setattr(product, key, value)
-
     
     db.commit()
     db.refresh(product)
