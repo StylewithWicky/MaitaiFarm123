@@ -14,7 +14,7 @@ const AdminDashboard = () => {
                         <ProductSlider />
                         <WhyChooseUs />
                         <AboutSection />
-                        <AdminFooter />
+                        
                 </main>
         );
 };
