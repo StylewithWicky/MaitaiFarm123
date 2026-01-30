@@ -3,7 +3,6 @@ import { Mail, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import styles from "../../styles/auth/TwoStepLogin.module.css";
 
-
 export default function LoginForm() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -12,14 +11,17 @@ export default function LoginForm() {
   const [globalError, setGlobalError] = useState(null);
   const navigate = useNavigate();
 
-  const FIELD_STEP_MAP = { email: 1, password: 2 };
-
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleNext = (e) => {
     e.preventDefault();
+    if (!formData.email) {
+      setFormErrors({ email: "Email is required" });
+      return;
+    }
+    setFormErrors({});
     setStep((prev) => prev + 1);
   };
 
@@ -32,11 +34,14 @@ export default function LoginForm() {
     setFormErrors({});
     setGlobalError(null);
 
-    console.log("🚀 Attempting to connect to FastAPI...");
+    // PRODUCTION FIX: Use environment variable with your Render URL as fallback
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://maitaifarm123.onrender.com";
+    
+    console.log(`🚀 Connecting to: ${backendUrl}`);
 
     try {
-     
-      const response = await fetch("http://127.0.0.1:8000/users/login", {
+      // Note: If you get a 404, try changing "/users/login" to "/login"
+      const response = await fetch(`${backendUrl}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -47,36 +52,32 @@ export default function LoginForm() {
 
       console.log("📡 Response Status:", response.status);
       const data = await response.json();
-      console.log("📦 Data received:", data);
 
       if (!response.ok) {
-       
-        const errorMessage = Array.isArray(data.detail) 
-        ? "Invalid data format sent to server" 
-        : data.detail || "Login failed";
+        const errorMessage = data.detail || "Login failed. Check your credentials.";
         setGlobalError(errorMessage);
-        setStep(1); // Reset to email step if it fails
+        setStep(1); 
       } else {
-        setSuccessMessage(`Welcome back, ${data.username}!`);
+        setSuccessMessage(`Welcome back, ${data.username || 'Admin'}!`);
         
+        // Store session data
         localStorage.setItem("adminToken", "true"); 
-        localStorage.setItem("userRole", data.role)
+        localStorage.setItem("userRole", data.role || 'user');
         
         setTimeout(() => {
           if (data.role === 'admin') {
-            console.log("👑 Admin detected. Redirecting...");
             navigate('/admin/dashboard', { replace: true });
           } else {
-            console.log("👤 User detected. Redirecting...");
             navigate('/dashboard', { replace: true });
           }
         }, 1500);
       }
     } catch (error) {
-      console.error("❌ Bridge broken:", error);
-      setGlobalError('Cannot connect to the server. Is FastAPI running?');
+      console.error("❌ Connection Error:", error);
+      setGlobalError('Maitai Farm server is currently unreachable. Please try again later.');
     }
   };
+
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={step === 2 ? handleSubmit : handleNext}>
@@ -99,6 +100,7 @@ export default function LoginForm() {
                 value={formData.email}
                 onChange={handleChange}
                 className={styles.input}
+                required
               />
             </div>
             {formErrors.email && <p className={styles['error-message']}>{formErrors.email}</p>}
@@ -116,9 +118,9 @@ export default function LoginForm() {
                 value={formData.password}
                 onChange={handleChange}
                 className={styles.input}
+                required
               />
             </div>
-            {formErrors.password && <p className={styles['error-message']}>{formErrors.password}</p>}
           </div>
         )}
 
