@@ -1,61 +1,63 @@
 import React from "react";
-import styles from "@/styles/Footer.module.css";
-import { MapPin, Phone, Mail, Facebook, Instagram,Youtube  } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Mail, Phone, MapPin, Facebook, Instagram, Twitter,Youtube } from "lucide-react";
+import styles from "@/styles/FooterText.module.css";
 
 const Footer = () => {
-        return (
-                <footer className={styles.footer}>
-                        <div className={styles.container}>
+  return (
+    <footer className={styles.footer}>
+      <div className={styles.container}>
+        <div className={styles.section}>
+          <div className={styles.logo}>MAITAI FARM</div>
+          <p className={styles.tagline}>
+            Raising quality and delivering excellence in every harvest. 
+            Sustainable farming from the heart of Nyandarua.
+          </p>
+        </div>
 
-                                {/* Brand + tagline */}
-                                <div className={styles.section}>
-                                        <h3 className={styles.logo}>Maitai Farm</h3>
-                                        <p className={styles.tagline}>
-                                                Home of healthy Dorper sheep, premium honey, and sustainable farm produce
-                                        </p>
-                                </div>
+        <div className={styles.section}>
+          <h4 className={styles.heading}>Our Produce</h4>
+          <ul className={styles.links}>
+            <li><Link to="/products/Dorper">Dorper Sheep</Link></li>
+            <li><Link to="/products/Hives">Bee Hives</Link></li>
+            <li><Link to="/products/Honey">Natural Honey</Link></li>
+            <li><Link to="/products/K9">K9/Dogs</Link></li>
+          </ul>
+        </div>
 
-                                {/* Quick links */}
-                                <div className={styles.section}>
-                                        <h4 className={styles.heading}>Quick Links</h4>
-                                        <ul className={styles.links}>
-                                                <li><a href="/admin/dashboard">Home</a></li>
-                                                <li><a href="/admin/upload">Post</a></li>
-                                                <li><a href="/admin/products/Hives">Modern Beehives</a></li>
-                                                <li><a href="/admin/network/Honey">Honey</a></li>
-                                                <li><a href="/admin/products/Dorper">Dorper Sheep</a></li>
-                                                <li><a href="/admin/products/K9">K9</a></li>
-                                                <li><a href="/admin/contact">Support</a></li>
-                                        </ul>
-                                </div>
+        <div className={styles.section}>
+          <h4 className={styles.heading}>Company</h4>
+          <ul className={styles.links}>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/about">About Us</Link></li>
+            <li><Link to="/location">Location</Link></li>
+          </ul>
+        </div>
 
-                                {/* Contact */}
-                                <div className={styles.section}>
-                                        <h4 className={styles.heading}>Contact</h4>
-                                        <ul className={styles.contact}>
-                                                <li><MapPin size={16} /> Nairobi, Kenya</li>
-                                                <li><Phone size={16} /> +254 728 581 959</li>
-                                                <li><Mail size={16} /> maitaifarm@gmail.com</li>
-                                        </ul>
-                                </div>
+        <div className={styles.section}>
+          <h4 className={styles.heading}>Reach Out</h4>
+          <ul className={styles.contact}>
+            <li><MapPin size={18} /> Nyandarua, Kenya</li>
+            <li><Phone size={18} /> +254 728 581 959</li>
+            <li><Mail size={18} /> itsjustmaitai@gmail.com</li>
+          </ul>
+          <div className={styles.socials}>
+            <a href="https://www.facebook.com/p/Maitai-FARM-61555882814110/"><Facebook size={18} /></a>
+            <a href="https://www.instagram.com/maitaifarm/"><Instagram size={18} /></a>
+            <a href="https://www.youtube.com/@MAITAIFARM"><Youtube size={18} /></a>
+          </div>
+        </div>
+      </div>
 
-                                {/* Socials */}
-                                <div className={styles.section}>
-                                        <h4 className={styles.heading}>Follow Us</h4>
-                                        <div className={styles.socials}>
-                                                <a href="https://www.facebook.com/profile.php?id=61555882814110&mibextid=ZbWKwL"><Facebook size={18} /></a>
-                                                <a href="https://www.instagram.com/maitaifarm?igsh=MXgxbnk1Z2w2cnQzNA=="><Instagram size={18} /></a>
-                                                <a href="https://www.youtube.com/@MAITAIFARM/shorts"><Youtube size={18} /></a>
-                                        </div>
-                                </div>
-                        </div>
-
-                        {/* Bottom bar */}
-                        <div className={styles.bottom}>
-                                <p>© {new Date().getFullYear()} Maitai Farm. All rights reserved.</p>
-                        </div>
-                </footer>
-        );
+      <div className={styles.bottom}>
+        <p>
+          &copy; {new Date().getFullYear()}{" "}
+          <Link to="/login" className={styles.secret}>Maitai Farm</Link>. 
+          All Rights Reserved.
+        </p>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;
