@@ -1,11 +1,12 @@
 .wrapper {
-  padding: 80px 5%;
+  padding: 60px 5%;
   background-color: #fdfdfd;
+  position: relative;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .heading {
@@ -14,12 +15,8 @@
   margin-bottom: 10px;
 }
 
-.subheading {
-  color: #666;
-}
-
 .slide {
-  padding: 15px; /* Creates the gap between cards */
+  padding: 10px; /* This creates the gap between your cards */
 }
 
 .card {
@@ -29,6 +26,8 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
   transition: transform 0.3s ease;
   border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
 }
 
 .card:hover {
@@ -36,14 +35,17 @@
 }
 
 .media {
-  height: 250px;
+  width: 100%;
+  height: 250px; /* Fixed height for all containers */
   overflow: hidden;
+  background-color: #f0f0f0;
 }
 
 .productImage {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Keeps image proportions correct */
+  object-fit: cover; /* This is what stops the squishing */
+  display: block;
 }
 
 .content {
@@ -52,21 +54,25 @@
 }
 
 .productName {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   color: #333;
   margin-bottom: 15px;
+  font-weight: 600;
 }
 
 .viewBtn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  margin: 0 auto;
-  background: transparent;
   color: #2d5a27;
-  border: none;
+  text-decoration: none;
   font-weight: 700;
-  cursor: pointer;
+  transition: 0.2s;
+}
+
+.viewBtn:hover {
+  gap: 12px;
 }
 
 /* Custom Arrows */
@@ -89,23 +95,10 @@
   transition: 0.3s;
 }
 
-.next { right: -20px; }
-.prev { left: -20px; }
+.next { right: -5px; }
+.prev { left: -5px; }
 
 .arrow:hover {
   background: #2d5a27;
   color: white;
-}
-/* ProductSlider.module.css */
-.productImage {
-  width: 100%;
-  height: 100%;
-  display: block;   /* Ensures it takes up space */
-  object-fit: cover; /* Prevents squishing */
-}
-
-.mediaInner {
-  width: 100%;
-  height: 250px;    /* Give the container a fixed height to start */
-  background-color: #f0f0f0; /* If image fails, you'll see a grey box */
 }
