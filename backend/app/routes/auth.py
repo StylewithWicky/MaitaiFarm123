@@ -44,13 +44,16 @@ def create_access_token(data: dict):
 def login_user(response: Response, db: Session = Depends(get_db),request_data:LoginRequest=Body(...)):
     
     user = db.query(User).filter(User.email == request_data.email).first()
+    
     if not user:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="User not found in Render DB")
 
     
+    
+
     result = check_and_update_hash(request_data.password, user.password_hash)
     if not result:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Password hash mismatch")
     
     
     access_token = create_access_token({"sub": str(user.id), "role": user.role or "user"})
