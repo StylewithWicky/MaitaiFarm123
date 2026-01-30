@@ -5,17 +5,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv, find_dotenv
 
-# Ensure environment is loaded before anything else
 load_dotenv(find_dotenv())
 
 from app.database.connection import engine, Base
 from app.models import farmers, product, user
 from app.routes import farmers as farmer_routes, product as product_routes, auth as auth_routes
 
-# Create database tables automatically
 Base.metadata.create_all(bind=engine)
 
-# Cloudinary Configuration
 cloudinary.config(
     cloud_name=os.getenv("CLOUDINARY_NAME"),
     api_key=os.getenv("CLOUDINARY_API_KEY"),
@@ -25,13 +22,13 @@ cloudinary.config(
 
 app = FastAPI(title="Maitai Farm API", version="1.0")
 
-# CORS setup for Local and Vercel
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:5174",
     "http://127.0.0.1:5174",
-    "https://maitai-farm.vercel.app", # Add your actual Vercel URL here
+    "https://maitai-farm.vercel.app",
+    "https://maitai-farm123.vercel.app",
 ]
 
 app.add_middleware(
@@ -42,7 +39,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include Routers
 app.include_router(farmer_routes.router)
 app.include_router(product_routes.router, prefix="/products", tags=["products"])
 app.include_router(auth_routes.router)
