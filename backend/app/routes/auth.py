@@ -60,8 +60,8 @@ def login_user(response: Response, db: Session = Depends(get_db),request_data:Lo
         key="token",
         value=access_token,
         httponly=True,
-        secure=False, 
-        samesite="Lax",
+        secure=True, 
+        samesite="None",
         max_age=masettings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         path="/"
     )
