@@ -4,6 +4,14 @@ import { ChevronDown } from 'lucide-react';
 import styles from '@/styles/HeroText.module.css';
 
 const HeroText = () => {
+    // Function to handle the smooth scroll
+    const handleScroll = () => {
+        window.scrollTo({ 
+            top: window.innerHeight, 
+            behavior: 'smooth' 
+        });
+    };
+
     return (
         <section className={styles.heroSection}>
             <video 
@@ -11,12 +19,13 @@ const HeroText = () => {
                 loop 
                 muted 
                 playsInline 
+                poster="/images/image.png" // Displays image until video plays
                 className={styles.heroVideo}
             >
                 <source src="/videos/cattle.mp4" type="video/mp4" />
-                <img src="/images/image.png" title="Maitai Farm" alt="Farm Background" />
             </video>
 
+            {/* The Gradient Scrim */}
             <div className={styles.heroOverlay}></div>
 
             <div className={styles.heroContainer}>
@@ -26,7 +35,8 @@ const HeroText = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                    Raising Quality, Delivering Excellence – Welcome to Maitai Farm
+                    Raising Quality, Delivering Excellence <br /> 
+                    <span className={styles.highlight}>Welcome to Maitai Farm</span>
                 </motion.h1>
 
                 <motion.p 
@@ -38,16 +48,17 @@ const HeroText = () => {
                     Home of healthy Dorper sheep, premium honey, and sustainable farm produce.
                 </motion.p>
 
+                {/* Interactive Discover More */}
                 <motion.div 
                     className={styles.scrollIndicator}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.2, duration: 1 }}
-                    onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+                    onClick={handleScroll}
                 >
                     <span>Discover More</span>
                     <motion.div
-                        animate={{ y: [0, 10, 0] }}
+                        animate={{ y: [0, 8, 0] }}
                         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                     >
                         <ChevronDown size={32} />
