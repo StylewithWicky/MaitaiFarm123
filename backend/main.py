@@ -26,9 +26,11 @@ origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:5174",
-    "http://127.0.0.1:5174",
     "https://maitai-farm.vercel.app",
     "https://maitai-farm123.vercel.app",
+    "https://maitai-farm123-o8ow5tb2j-yazzzs-projects.vercel.app",
+    "https://maitaifarm.com",
+    "https://www.maitaifarm.com"
 ]
 
 app.add_middleware(
