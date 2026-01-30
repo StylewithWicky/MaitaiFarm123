@@ -6,10 +6,10 @@ import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import styles from "@/styles/ProductSlider.module.css";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import dorperImg from "@/images/Dorper.png";
-import honeyImg from "@/images/honey.png";
-import k9Img from "@/images/k9.png";
-import beehiveImg from "@/images/beehives.png";
+import dorperImg from "@/images/sheep.png";
+import honeyImg from "@/images/Honeys.png";
+import k9Img from "@/images/Dog.png";
+import beehiveImg from "@/images/Hives.png";
 
 const products = [
   { id: "p1", name: "Dorper Sheep", image: dorperImg }, 
