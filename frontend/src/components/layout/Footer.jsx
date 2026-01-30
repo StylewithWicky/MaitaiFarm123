@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Facebook, Instagram, Twitter,Youtube } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Instagram, Youtube } from "lucide-react";
 import styles from "@/styles/FooterText.module.css";
 
 const Footer = () => {
@@ -42,9 +42,9 @@ const Footer = () => {
             <li><Mail size={18} /> itsjustmaitai@gmail.com</li>
           </ul>
           <div className={styles.socials}>
-            <a href="https://www.facebook.com/p/Maitai-FARM-61555882814110/"><Facebook size={18} /></a>
-            <a href="https://www.instagram.com/maitaifarm/"><Instagram size={18} /></a>
-            <a href="https://www.youtube.com/@MAITAIFARM"><Youtube size={18} /></a>
+            <a href="https://www.facebook.com/p/Maitai-FARM-61555882814110/" target="_blank" rel="noreferrer"><Facebook size={18} /></a>
+            <a href="https://www.instagram.com/maitaifarm/" target="_blank" rel="noreferrer"><Instagram size={18} /></a>
+            <a href="https://www.youtube.com/@MAITAIFARM" target="_blank" rel="noreferrer"><Youtube size={18} /></a>
           </div>
         </div>
       </div>
@@ -52,7 +52,8 @@ const Footer = () => {
       <div className={styles.bottom}>
         <p>
           &copy; {new Date().getFullYear()}{" "}
-          <Link to="/login" className={styles.secret}>Maitai Farm</Link>. 
+          
+          <Link to="/admin/login" className={styles.secret}>Maitai Farm</Link>. 
           All Rights Reserved.
         </p>
       </div>
