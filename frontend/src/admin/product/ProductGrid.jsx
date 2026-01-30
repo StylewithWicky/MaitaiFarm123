@@ -8,7 +8,8 @@ const ProductGrid = () => {
     const [products, setProducts] = useState([]);
     const navigate = useNavigate(); 
     const location = useLocation();
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://maitaifarm123.onrender.com';
 
     const isAdmin = localStorage.getItem("userRole") === "admin" && location.pathname.startsWith('/admin');
 
@@ -17,13 +18,14 @@ const ProductGrid = () => {
     };
 
     useEffect(() => {
+        if (!backendUrl) return;
+
         fetch(`${backendUrl}/products/?category=${category}`)
             .then(res => {
                 if (!res.ok) throw new Error('Network response was not ok');
                 return res.json();
             })
             .then(data => {
-                // FIX 1: Data is the array itself, not data.products
                 setProducts(data || []); 
             })
             .catch(err => console.error("Fetch error:", err));
@@ -66,7 +68,6 @@ const ProductGrid = () => {
                     products.map((item) => (
                         <div key={item.id} className={styles.card}>
                             <div className={styles.media}>
-                                {/* FIX 2: Use image_url to match your Cloudinary backend field */}
                                 <img 
                                     src={item.image_url || '/placeholder-dog.jpg'} 
                                     alt={item.name} 
