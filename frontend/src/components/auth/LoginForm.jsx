@@ -44,6 +44,7 @@ export default function LoginForm() {
       const response = await fetch(`${backendUrl}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           email: formData.email,
           password: formData.password,
