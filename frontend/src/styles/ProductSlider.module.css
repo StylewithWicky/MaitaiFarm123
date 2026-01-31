@@ -1,7 +1,8 @@
 .wrapper {
   padding: 60px 5%;
-  background-color: #fdfdfd;
+  background-color: #f9f9f9;
   position: relative;
+  overflow: hidden;
 }
 
 .header {
@@ -12,52 +13,57 @@
 .heading {
   color: #2d5a27;
   font-size: 2.5rem;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+}
+
+.underline {
+  width: 60px;
+  height: 4px;
+  background: #2d5a27;
+  margin: 0 auto;
+  border-radius: 2px;
 }
 
 .slide {
-  padding: 10px; /* This creates the gap between your cards */
+  padding: 15px;
 }
 
 .card {
   background: #fff;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
   border: 1px solid #eee;
-  display: flex;
-  flex-direction: column;
+  transition: transform 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-5px);
 }
 
 .media {
   width: 100%;
-  height: 250px; /* Fixed height for all containers */
-  overflow: hidden;
-  background-color: #f0f0f0;
+  height: 250px;
+  background-color: #eee;
 }
 
 .productImage {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* This is what stops the squishing */
+  object-fit: cover;
   display: block;
 }
 
 .content {
-  padding: 20px;
+  padding: 24px;
   text-align: center;
 }
 
 .productName {
-  font-size: 1.25rem;
-  color: #333;
+  font-size: 1.3rem;
+  color: #1a1a1a;
   margin-bottom: 15px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .viewBtn {
@@ -67,15 +73,10 @@
   gap: 8px;
   color: #2d5a27;
   text-decoration: none;
-  font-weight: 700;
-  transition: 0.2s;
+  font-weight: 600;
+  font-size: 1rem;
 }
 
-.viewBtn:hover {
-  gap: 12px;
-}
-
-/* Custom Arrows */
 .arrow {
   position: absolute;
   top: 50%;
@@ -83,22 +84,22 @@
   transform: translateY(-50%);
   background: white;
   border: none;
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: #2d5a27;
-  transition: 0.3s;
 }
 
-.next { right: -5px; }
-.prev { left: -5px; }
+.next { right: 10px; }
+.prev { left: 10px; }
 
-.arrow:hover {
-  background: #2d5a27;
-  color: white;
+@media (max-width: 768px) {
+  .heading { font-size: 1.8rem; }
+  .media { height: 300px; }
+  .slide { padding: 5px; }
 }
